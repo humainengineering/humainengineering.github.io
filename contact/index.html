@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — HUMAIN Engineering</title>
+  <meta name="description" content="Get in touch with HUMAIN Engineering for process safety, functional safety and HSE consultancy."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:#0a0f1a; --ink-soft:#1c2333; --steel:#2d3a52;
+      --fog:#f2f4f7; --white:#ffffff; --rule:#dde2eb;
+      --accent:#c8861a; --accent2:#1a6fc8; --muted:#6b7a96; --live:#1a9e6f;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Instrument Sans',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;}
+    .container{max-width:1140px;margin:0 auto;padding:0 2rem;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(10,15,26,0.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.07);}
+    .nav-inner{max-width:1140px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-brand{display:flex;align-items:baseline;text-decoration:none;}
+    .nav-brand-hum{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--white);letter-spacing:1px;}
+    .nav-brand-ai{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--accent);letter-spacing:1px;}
+    .nav-brand-rest{font-family:'Syne',sans-serif;font-weight:400;font-size:0.9rem;color:rgba(255,255,255,0.5);letter-spacing:4px;margin-left:4px;}
+    .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--white);}
+    .nav-links .nav-contact{color:var(--accent)!important;border:1px solid rgba(200,134,26,0.4);padding:7px 16px;border-radius:4px;transition:all 0.2s!important;}
+    .nav-links .nav-contact:hover{background:var(--accent);color:var(--ink)!important;}
+
+    .page-hero{background:var(--ink);padding:140px 0 80px;position:relative;overflow:hidden;}
+    .page-hero-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:80px 80px;}
+    .hero-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 40px,var(--ink) 40px,var(--ink) 80px);}
+    .page-hero-inner{position:relative;z-index:1;}
+    .section-tag{font-family:'Courier New',monospace;font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
+    .section-tag::before{content:'';width:20px;height:1px;background:var(--accent);}
+    .page-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,5vw,4.5rem);color:var(--white);line-height:1.0;letter-spacing:-0.5px;margin-bottom:1.5rem;max-width:700px;}
+    .page-hero p{font-family:'Instrument Serif',serif;font-size:1.15rem;color:rgba(255,255,255,0.5);max-width:560px;line-height:1.75;}
+
+    /* CONTACT SECTION */
+    .section-contact{padding:100px 0;background:var(--fog);}
+    .contact-grid{display:grid;grid-template-columns:2fr 3fr;gap:80px;align-items:start;}
+
+    .contact-info{}
+    .contact-info h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.6rem,2.5vw,2.2rem);color:var(--ink);line-height:1.15;margin-bottom:1rem;}
+    .contact-info p{font-family:'Instrument Serif',serif;font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;}
+    .contact-info p strong{color:var(--ink);font-style:italic;}
+
+    .contact-details{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:2.5rem;}
+    .contact-detail{display:flex;gap:1rem;align-items:flex-start;}
+    .contact-detail-icon{width:40px;height:40px;background:var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .contact-detail-text{}
+    .contact-detail-label{font-family:'Courier New',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.25rem;}
+    .contact-detail-value{font-size:0.9rem;color:var(--ink);font-weight:500;}
+
+    .contact-disciplines{border:1px solid var(--rule);background:var(--white);padding:1.5rem;}
+    .contact-disciplines h4{font-family:'Courier New',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;}
+    .disc-list{display:flex;flex-direction:column;gap:0.5rem;}
+    .disc-item{display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;color:var(--steel);}
+    .disc-item::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+
+    /* FORM */
+    .contact-form-wrap{background:var(--white);border:1px solid var(--rule);padding:2.5rem;}
+
+    .form-group{margin-bottom:1.5rem;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+    .form-group label{display:block;font-family:'Courier New',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.5rem;}
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+      width:100%;border:1px solid var(--rule);background:var(--fog);
+      padding:12px 14px;font-family:'Instrument Sans',sans-serif;
+      font-size:0.9rem;color:var(--ink);border-radius:0;outline:none;
+      transition:border-color 0.2s,background 0.2s;
+      appearance:none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus{border-color:var(--accent);background:var(--white);}
+    .form-group textarea{min-height:140px;resize:vertical;}
+    .form-group select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a96' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+
+    .form-note{font-size:0.78rem;color:var(--muted);line-height:1.6;margin-bottom:1.5rem;font-style:italic;}
+
+    .btn-submit{width:100%;background:var(--ink);color:var(--white);border:none;padding:15px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.5px;cursor:pointer;transition:background 0.2s;text-transform:uppercase;}
+    .btn-submit:hover{background:var(--accent);}
+    .btn-submit:disabled{background:var(--muted);cursor:not-allowed;}
+
+    .form-success{display:none;text-align:center;padding:3rem 2rem;}
+    .form-success-icon{font-size:2.5rem;margin-bottom:1rem;}
+    .form-success h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:var(--ink);margin-bottom:0.5rem;}
+    .form-success p{font-size:0.9rem;color:var(--muted);line-height:1.6;}
+
+    /* WHAT TO EXPECT */
+    .section-expect{padding:80px 0;background:var(--white);border-top:1px solid var(--rule);}
+    .expect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .expect-card{padding:2rem;border:1px solid var(--rule);transition:box-shadow 0.2s;}
+    .expect-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06);}
+    .expect-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2.5rem;color:rgba(200,134,26,0.15);line-height:1;margin-bottom:0.75rem;}
+    .expect-card h3{font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;color:var(--ink);margin-bottom:0.5rem;}
+    .expect-card p{font-size:0.83rem;color:var(--muted);line-height:1.65;}
+
+    footer{background:#060b14;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 0 2rem;}
+    .footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem;}
+    .footer-brand-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--white);letter-spacing:1px;margin-bottom:0.4rem;}
+    .footer-brand-name span{color:var(--accent);}
+    .footer-brand-tag{font-size:0.78rem;color:var(--muted);max-width:260px;line-height:1.5;}
+    .footer-nav{display:flex;gap:3rem;flex-wrap:wrap;}
+    .footer-col h4{font-family:'Courier New',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+    .footer-col a{font-size:0.83rem;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--white);}
+    .footer-bottom{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    .footer-copy{font-size:0.75rem;color:rgba(255,255,255,0.2);}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){
+      .contact-grid{grid-template-columns:1fr;gap:3rem;}
+      .form-row{grid-template-columns:1fr;}
+      .expect-grid{grid-template-columns:1fr;}
+      .nav-links{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-hum">HUM</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/services/">Services</a></li>
+      <li><a href="/insights/">Insights</a></li>
+      <li><a href="/contact/" class="nav-contact active">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="page-hero-inner container">
+    <div class="section-tag">Get in Touch</div>
+    <h1>Tell us about your engineering challenge.</h1>
+    <p>Whether it's a scoped project or an early-stage question — we're happy to have a technical conversation before any commitment.</p>
+  </div>
+</section>
+
+<section class="section-contact">
+  <div class="container">
+    <div class="contact-grid reveal">
+
+      <div class="contact-info">
+        <h2>Start a conversation.</h2>
+        <p>We work with engineering teams, HSE managers, and companies across the process industries internationally. <strong>No project is too early-stage to discuss.</strong></p>
+
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="contact-detail-icon">⏱</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">Response Time</div>
+              <div class="contact-detail-value">Within 1 business day</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">🌍</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">Location</div>
+              <div class="contact-detail-value">UK-based. International projects welcome.</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📋</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">First Step</div>
+              <div class="contact-detail-value">A brief scoping call — no cost, no obligation.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-disciplines">
+          <h4>We can help with</h4>
+          <div class="disc-list">
+            <div class="disc-item">Process Safety &amp; COMAH compliance</div>
+            <div class="disc-item">Functional Safety — IEC 61511</div>
+            <div class="disc-item">HSE &amp; regulatory compliance</div>
+            <div class="disc-item">Inspection &amp; integrity management</div>
+            <div class="disc-item">Bespoke AI engineering tools</div>
+            <div class="disc-item">Technical report review</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <div id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name *</label>
+              <input type="text" id="name" placeholder="Full name" required/>
+            </div>
+            <div class="form-group">
+              <label>Work Email *</label>
+              <input type="email" id="email" placeholder="you@company.com" required/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Company / Organisation</label>
+              <input type="text" id="company" placeholder="Your company name"/>
+            </div>
+            <div class="form-group">
+              <label>Industry Sector</label>
+              <select id="industry">
+                <option value="" disabled selected>Select sector</option>
+                <option>Oil &amp; Gas — Upstream</option>
+                <option>Refining &amp; Petrochemicals</option>
+                <option>Chemical Manufacturing</option>
+                <option>Power Generation</option>
+                <option>Pharmaceuticals</option>
+                <option>Water &amp; Utilities</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Service Area *</label>
+            <select id="service" required>
+              <option value="" disabled selected>What do you need help with?</option>
+              <option>Process Safety &amp; COMAH</option>
+              <option>Functional Safety — IEC 61511</option>
+              <option>HSE &amp; Regulatory Compliance</option>
+              <option>Inspection &amp; Integrity Management</option>
+              <option>Bespoke Engineering Tool</option>
+              <option>Technical Report Review</option>
+              <option>Not sure yet — want to discuss</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tell us about your project *</label>
+            <textarea id="message" placeholder="Describe your engineering challenge, the regulatory context, timeline, and any specific deliverables you need..." required></textarea>
+          </div>
+          <p class="form-note">Your enquiry goes directly to a qualified process safety engineer — not a sales team. We'll respond with a technical perspective, not a brochure.</p>
+          <button class="btn-submit" onclick="submitForm()">Send Enquiry →</button>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">✓</div>
+          <h3>Enquiry received.</h3>
+          <p>A qualified engineer will review your message and respond within one business day. We'll come back with a technical perspective on your challenge.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHAT TO EXPECT -->
+<section class="section-expect">
+  <div class="container">
+    <div class="section-tag reveal">What Happens Next</div>
+    <div class="expect-grid reveal">
+      <div class="expect-card">
+        <div class="expect-num">01</div>
+        <h3>Technical review</h3>
+        <p>Your enquiry is read by a qualified engineer — not filtered by an account manager. We assess the scope and identify the right approach before responding.</p>
+      </div>
+      <div class="expect-card">
+        <div class="expect-num">02</div>
+        <h3>Scoping conversation</h3>
+        <p>A brief call or exchange to clarify the challenge, understand the regulatory context, and agree what useful output looks like for your situation.</p>
+      </div>
+      <div class="expect-card">
+        <div class="expect-num">03</div>
+        <h3>Proposal or direct start</h3>
+        <p>For defined scopes, a short written proposal. For smaller or urgent work, we can often start directly. No unnecessary process between enquiry and delivery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
+        <div class="footer-brand-tag">AI-powered process safety tools and consultancy. Built on real incident experience.</div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services/">Process Safety</a></li>
+            <li><a href="/services/">Functional Safety</a></li>
+            <li><a href="/services/">HSE Compliance</a></li>
+            <li><a href="/services/">Integrity Management</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function submitForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const service = document.getElementById('service').value;
+    if (!name || !email || !message || !service) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    // Hide form, show success
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+</script>
+</body>
+</html>
