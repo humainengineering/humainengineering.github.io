@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Insights — HUMAIN Engineering</title>
+  <meta name="description" content="Technical process safety articles written by engineers for engineers. ALARP, LOPA, COMAH, functional safety and more."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:#0a0f1a; --ink-soft:#1c2333; --steel:#2d3a52;
+      --fog:#f2f4f7; --white:#ffffff; --rule:#dde2eb;
+      --accent:#c8861a; --accent2:#1a6fc8; --muted:#6b7a96; --live:#1a9e6f;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Instrument Sans',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;}
+    .container{max-width:1140px;margin:0 auto;padding:0 2rem;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(10,15,26,0.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.07);}
+    .nav-inner{max-width:1140px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-brand{display:flex;align-items:baseline;text-decoration:none;}
+    .nav-brand-hum{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--white);letter-spacing:1px;}
+    .nav-brand-ai{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--accent);letter-spacing:1px;}
+    .nav-brand-rest{font-family:'Syne',sans-serif;font-weight:400;font-size:0.9rem;color:rgba(255,255,255,0.5);letter-spacing:4px;margin-left:4px;}
+    .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--white);}
+    .nav-links .nav-contact{color:var(--accent)!important;border:1px solid rgba(200,134,26,0.4);padding:7px 16px;border-radius:4px;transition:all 0.2s!important;}
+    .nav-links .nav-contact:hover{background:var(--accent);color:var(--ink)!important;}
+
+    .page-hero{background:var(--ink);padding:140px 0 80px;position:relative;overflow:hidden;}
+    .page-hero-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:80px 80px;}
+    .hero-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 40px,var(--ink) 40px,var(--ink) 80px);}
+    .page-hero-inner{position:relative;z-index:1;}
+    .section-tag{font-family:'Courier New',monospace;font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
+    .section-tag::before{content:'';width:20px;height:1px;background:var(--accent);}
+    .page-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,5vw,4.5rem);color:var(--white);line-height:1.0;letter-spacing:-0.5px;margin-bottom:1.5rem;max-width:700px;}
+    .page-hero p{font-family:'Instrument Serif',serif;font-size:1.15rem;color:rgba(255,255,255,0.5);max-width:560px;line-height:1.75;}
+
+    /* FILTER */
+    .section-filter{padding:40px 0 0;background:var(--white);border-bottom:1px solid var(--rule);}
+    .filter-row{display:flex;gap:0;overflow-x:auto;}
+    .filter-btn{padding:12px 20px;font-family:'Courier New',monospace;font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+    .filter-btn:hover{color:var(--ink);}
+    .filter-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+    /* ARTICLES */
+    .section-articles{padding:60px 0 100px;background:var(--white);}
+
+    .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);}
+
+    .article-card{background:var(--white);display:flex;flex-direction:column;transition:background 0.2s;cursor:default;}
+    .article-card.available{cursor:pointer;}
+    .article-card.available:hover{background:var(--fog);}
+
+    .article-card-top{background:var(--ink);padding:2rem;position:relative;overflow:hidden;min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;}
+    .article-card-top::after{content:attr(data-bg);position:absolute;top:-10px;right:-5px;font-family:'Syne',sans-serif;font-weight:800;font-size:4.5rem;color:rgba(255,255,255,0.04);pointer-events:none;line-height:1;}
+    .article-topic{font-family:'Courier New',monospace;font-size:0.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:8px;}
+    .article-topic::before{content:'';width:14px;height:1px;background:var(--accent);}
+
+    .article-card-body{padding:1.75rem;flex:1;display:flex;flex-direction:column;}
+    .article-card-body h3{font-family:'Syne',sans-serif;font-weight:600;font-size:0.98rem;color:var(--ink);line-height:1.4;margin-bottom:0.75rem;}
+    .article-card-body p{font-size:0.83rem;color:var(--muted);line-height:1.65;flex:1;margin-bottom:1rem;}
+
+    .article-status{font-family:'Courier New',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;}
+    .status-coming{color:var(--accent);}
+    .status-live{color:var(--live);display:flex;align-items:center;gap:6px;}
+    .status-live::before{content:'';width:5px;height:5px;background:var(--live);border-radius:50%;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
+
+    /* EDITORIAL NOTE */
+    .section-editorial{padding:80px 0;background:var(--ink);}
+    .editorial-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .editorial-left h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,3vw,2.5rem);color:var(--white);line-height:1.1;margin-bottom:1rem;letter-spacing:-0.5px;}
+    .editorial-left p{font-family:'Instrument Serif',serif;font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:1rem;}
+    .editorial-left p strong{color:rgba(255,255,255,0.85);font-style:italic;}
+    .editorial-right{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.06);}
+    .editorial-principle{background:var(--ink-soft);padding:1.5rem;transition:background 0.2s;}
+    .editorial-principle:hover{background:#232f47;}
+    .ep-num{font-family:'Courier New',monospace;font-size:0.65rem;color:var(--accent);letter-spacing:2px;margin-bottom:0.5rem;}
+    .ep-text{font-size:0.88rem;color:rgba(255,255,255,0.6);line-height:1.6;}
+    .ep-text strong{color:rgba(255,255,255,0.9);}
+
+    /* NOTIFY */
+    .section-notify{padding:80px 0;background:var(--fog);text-align:center;border-top:1px solid var(--rule);}
+    .section-notify h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.6rem,2.5vw,2.2rem);color:var(--ink);margin-bottom:0.75rem;}
+    .section-notify p{font-family:'Instrument Serif',serif;font-size:1rem;color:var(--muted);max-width:440px;margin:0 auto 2rem;line-height:1.7;}
+    .notify-form{display:flex;gap:0;max-width:480px;margin:0 auto;border:1px solid var(--rule);}
+    .notify-form input{flex:1;padding:13px 16px;font-family:'Instrument Sans',sans-serif;font-size:0.9rem;border:none;outline:none;background:var(--white);color:var(--ink);}
+    .notify-form button{background:var(--ink);color:var(--white);border:none;padding:13px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.5px;cursor:pointer;transition:background 0.2s;white-space:nowrap;}
+    .notify-form button:hover{background:var(--accent);}
+    .notify-note{font-size:0.75rem;color:var(--muted);margin-top:0.75rem;font-style:italic;}
+
+    footer{background:#060b14;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 0 2rem;}
+    .footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem;}
+    .footer-brand-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--white);letter-spacing:1px;margin-bottom:0.4rem;}
+    .footer-brand-name span{color:var(--accent);}
+    .footer-brand-tag{font-size:0.78rem;color:var(--muted);max-width:260px;line-height:1.5;}
+    .footer-nav{display:flex;gap:3rem;flex-wrap:wrap;}
+    .footer-col h4{font-family:'Courier New',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+    .footer-col a{font-size:0.83rem;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--white);}
+    .footer-bottom{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    .footer-copy{font-size:0.75rem;color:rgba(255,255,255,0.2);}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){
+      .articles-grid{grid-template-columns:1fr;}
+      .editorial-inner{grid-template-columns:1fr;gap:3rem;}
+      .nav-links{display:none;}
+    }
+    @media(max-width:600px){
+      .notify-form{flex-direction:column;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-hum">HUM</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/services/">Services</a></li>
+      <li><a href="/insights/" class="active">Insights</a></li>
+      <li><a href="/contact/" class="nav-contact">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="page-hero-inner container">
+    <div class="section-tag">Technical Insights</div>
+    <h1>Written by engineers. For engineers.</h1>
+    <p>In-depth process safety articles that go beyond the standard — exploring where methodology works, where it doesn't, and what experienced practitioners actually do about it.</p>
+  </div>
+</section>
+
+<section class="section-filter">
+  <div class="container">
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterArticles('all',this)">All Topics</button>
+      <button class="filter-btn" onclick="filterArticles('alarp',this)">ALARP / CBA</button>
+      <button class="filter-btn" onclick="filterArticles('lopa',this)">LOPA</button>
+      <button class="filter-btn" onclick="filterArticles('comah',this)">COMAH</button>
+      <button class="filter-btn" onclick="filterArticles('functional',this)">Functional Safety</button>
+      <button class="filter-btn" onclick="filterArticles('integrity',this)">Integrity</button>
+    </div>
+  </div>
+</section>
+
+<section class="section-articles">
+  <div class="container">
+    <div class="articles-grid reveal" id="articlesGrid">
+
+      <div class="article-card" data-topic="alarp">
+        <div class="article-card-top" data-bg="CBA">
+          <div class="article-topic">ALARP / CBA</div>
+        </div>
+        <div class="article-card-body">
+          <h3>When does Cost-Benefit Analysis actually hold up to HSE scrutiny?</h3>
+          <p>A critical examination of the Smith 2020 methodology, VoPF inflation assumptions, and where quantitative ALARP arguments are strongest — and where they quietly unravel under pressure.</p>
+          <div class="article-status status-coming">// Coming Soon</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-topic="lopa">
+        <div class="article-card-top" data-bg="LOPA">
+          <div class="article-topic">LOPA</div>
+        </div>
+        <div class="article-card-body">
+          <h3>The double jeopardy rule: what it actually means, and where engineers get it wrong.</h3>
+          <p>Double jeopardy in LOPA is one of the most misapplied concepts in risk assessment. Worked examples from real studies — including cases where it was incorrectly invoked to avoid a SIL requirement.</p>
+          <div class="article-status status-coming">// Coming Soon</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-topic="comah">
+        <div class="article-card-top" data-bg="REG6">
+          <div class="article-topic">COMAH</div>
+        </div>
+        <div class="article-card-body">
+          <h3>COMAH Regulation 6 notification: a practical guide that HSE guidance doesn't give you.</h3>
+          <p>Inventory classification, Schedule 1 Part 2 aggregation rules, threshold calculations, and how to structure a defensible notification when your inventory sits close to the boundary.</p>
+          <div class="article-status status-coming">// Coming Soon</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-topic="functional">
+        <div class="article-card-top" data-bg="SIL">
+          <div class="article-topic">Functional Safety</div>
+        </div>
+        <div class="article-card-body">
+          <h3>SIL verification versus SIL determination: why confusing the two creates real risk.</h3>
+          <p>The difference between determining a SIL target and verifying a design achieves it is fundamental — yet frequently blurred in practice. A breakdown of both, with common failure modes.</p>
+          <div class="article-status status-coming">// Coming Soon</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-topic="integrity">
+        <div class="article-card-top" data-bg="HTHA">
+          <div class="article-topic">Integrity</div>
+        </div>
+        <div class="article-card-body">
+          <h3>Nelson Curves and HTHA: what the curves don't tell you about operating at the boundary.</h3>
+          <p>API 941 Nelson Curves define material suitability limits — but operating near the boundary involves uncertainty that the curves themselves don't quantify. A practical guide for engineers.</p>
+          <div class="article-status status-coming">// Coming Soon</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-topic="alarp">
+        <div class="article-card-top" data-bg="VoPF">
+          <div class="article-topic">ALARP / CBA</div>
+        </div>
+        <div class="article-card-body">
+          <h3>The Value of Preventing a Fatality: what it is, where it comes from, and why it matters.</h3>
+          <p>The VoPF is the foundation of quantitative ALARP assessment — but few engineers know its derivation, its limitations, or how inflation adjustment changes the conclusion. A full breakdown.</p>
+          <div class="article-status status-coming">// Coming Soon</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDITORIAL PRINCIPLES -->
+<section class="section-editorial">
+  <div class="container">
+    <div class="editorial-inner reveal">
+      <div class="editorial-left">
+        <div class="section-tag" style="color:rgba(255,255,255,0.4)"><span></span>Editorial Standards</div>
+        <h2>What you won't find here.</h2>
+        <p>There is no shortage of process safety content that restates what the standard already says. <strong>HUMAIN Insights is written for practitioners who already know the standard</strong> and want to understand where it gets hard.</p>
+        <p>Every article is written by a qualified engineer with direct operational experience of the topic covered. No generalist content. No sponsored posts. No fluff.</p>
+      </div>
+      <div class="editorial-right">
+        <div class="editorial-principle">
+          <div class="ep-num">01 //</div>
+          <div class="ep-text"><strong>No restating the obvious.</strong> If it's already clear in the standard or HSE guidance, we don't repeat it. We start where the guidance runs out.</div>
+        </div>
+        <div class="editorial-principle">
+          <div class="ep-num">02 //</div>
+          <div class="ep-text"><strong>Real cases, real numbers.</strong> Where possible, worked examples use realistic engineering parameters — not sanitised toy problems.</div>
+        </div>
+        <div class="editorial-principle">
+          <div class="ep-num">03 //</div>
+          <div class="ep-text"><strong>Honest about uncertainty.</strong> Where methodology is genuinely ambiguous or contested, we say so — and explain the implications.</div>
+        </div>
+        <div class="editorial-principle">
+          <div class="ep-num">04 //</div>
+          <div class="ep-text"><strong>Attributable and traceable.</strong> Every technical claim is referenced. If we cite a standard, we cite the clause. If we disagree with common practice, we explain why.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFY -->
+<section class="section-notify">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag" style="justify-content:center;"><span></span>Stay Informed</div>
+      <h2>New articles, when they're published.</h2>
+      <p>No newsletter cadence. No marketing. Just a notification when a new technical article goes live.</p>
+      <div class="notify-form">
+        <input type="email" id="notifyEmail" placeholder="your@email.com"/>
+        <button onclick="notifySubmit()">Notify Me</button>
+      </div>
+      <p class="notify-note" id="notifyNote">Your email is used only to notify you of new articles. Nothing else.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
+        <div class="footer-brand-tag">AI-powered process safety tools and consultancy. Built on real incident experience.</div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services/">Process Safety</a></li>
+            <li><a href="/services/">Functional Safety</a></li>
+            <li><a href="/services/">HSE Compliance</a></li>
+            <li><a href="/services/">Integrity Management</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function filterArticles(topic, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.article-card').forEach(card => {
+      card.style.display = (topic === 'all' || card.dataset.topic === topic) ? 'flex' : 'none';
+      card.style.flexDirection = 'column';
+    });
+  }
+
+  function notifySubmit() {
+    const email = document.getElementById('notifyEmail').value.trim();
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    document.getElementById('notifyNote').textContent = '✓ You\'ll be notified when new articles are published.';
+    document.getElementById('notifyNote').style.color = '#1a9e6f';
+    document.getElementById('notifyEmail').disabled = true;
+    document.querySelector('.notify-form button').disabled = true;
+    document.querySelector('.notify-form button').textContent = 'Subscribed';
+  }
+</script>
+</body>
+</html>
