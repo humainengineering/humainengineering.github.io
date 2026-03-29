@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HUMAIN Engineering — HSEQI Tools, Consultancy, and Intelligent Decision Support</title>
+  <meta name="description" content="HumAIn Engineering provides practical HSEQI tools and consultancy across health, safety, environment, quality, and integrity — combining human engineering judgement with AI-enabled solutions for real-world industrial applications."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:       #0a0f1a;
+      --ink-soft:  #1c2333;
+      --steel:     #2d3a52;
+      --fog:       #f2f4f7;
+      --white:     #ffffff;
+      --rule:      #dde2eb;
+      --accent:    #c8861a;
+      --accent2:   #1a6fc8;
+      --muted:     #6b7a96;
+      --live:      #1a9e6f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    .mono { font-family: 'Courier New', monospace; }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(10,15,26,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-inner {
+      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+      height: 62px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: baseline; gap: 0; text-decoration: none;
+    }
+    .nav-brand-hum { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
+    .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
+    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:0.9rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; }
+
+    .nav-links { display:flex; align-items:center; gap:2.5rem; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; letter-spacing:0.3px; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--white); }
+    .nav-links .nav-contact {
+      color: var(--accent) !important;
+      border: 1px solid rgba(200,134,26,0.4);
+      padding: 7px 16px; border-radius: 4px;
+      transition: all 0.2s !important;
+    }
+    .nav-links .nav-contact:hover { background: var(--accent); color: var(--ink) !important; border-color: var(--accent); }
+
+    .hero {
+      min-height: 100vh;
+      background: var(--ink);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .hero-stripe {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--accent) 0px, var(--accent) 40px,
+        var(--ink) 40px, var(--ink) 80px
+      );
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+      padding-top: 160px; padding-bottom: 80px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+    .hero-eyebrow span {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 3px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+      line-height: 1.0;
+      color: var(--white);
+      letter-spacing: -1px;
+      max-width: 900px;
+      margin-bottom: 2rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.35);
+    }
+    .hero h1 .amber { color: var(--accent); -webkit-text-stroke: 0; }
+
+    .hero-body {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: end;
+    }
+
+    .hero-desc {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+      max-width: 520px;
+    }
+    .hero-desc strong { color: rgba(255,255,255,0.85); font-style: italic; }
+
+    .hero-right { display: flex; flex-direction: column; gap: 1.5rem; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-amber {
+      background: var(--accent); color: var(--ink);
+      padding: 13px 26px; border-radius: 4px;
+      text-decoration: none; font-weight: 600; font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-amber:hover { background: #e09a25; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,134,26,0.35); }
+
+    .btn-ghost {
+      background: transparent; color: rgba(255,255,255,0.7);
+      padding: 13px 26px; border-radius: 4px;
+      text-decoration: none; font-weight: 500; font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+
+    .hero-credentials {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .cred-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1.6rem; color: var(--white);
+    }
+    .cred-val span { color: var(--accent); }
+    .cred-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.68rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .ticker {
+      background: var(--accent);
+      overflow: hidden; white-space: nowrap;
+      padding: 10px 0;
+    }
+    .ticker-track {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-track span {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--ink);
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 0 2.5rem;
+    }
+    .ticker-track span::before { content: '◆  '; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .section-intro {
+      padding: 100px 0;
+      background: var(--fog);
+    }
+    .intro-grid {
+      display: grid; grid-template-columns: 5fr 7fr; gap: 80px; align-items: start;
+    }
+    .section-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 3px;
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-tag::before { content:''; width:20px; height:1px; background:var(--accent); }
+
+    .intro-left h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: clamp(2rem, 3.5vw, 2.8rem);
+      line-height: 1.15; color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .intro-left p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; color: var(--muted);
+      line-height: 1.8; margin-bottom: 1rem;
+    }
+    .intro-left p strong { color: var(--ink); font-style: italic; }
+
+    .intro-right {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+    .service-cell {
+      background: var(--white);
+      padding: 2rem 1.75rem;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .service-cell:hover { background: var(--ink); }
+    .service-cell:hover .sc-num { color: var(--accent); }
+    .service-cell:hover .sc-title { color: var(--white); }
+    .service-cell:hover .sc-desc { color: rgba(255,255,255,0.5); }
+    .sc-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.68rem; color: var(--accent);
+      letter-spacing: 2px; margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+    .sc-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 0.95rem;
+      color: var(--ink); margin-bottom: 0.5rem;
+      transition: color 0.2s;
+      line-height: 1.3;
+    }
+    .sc-desc {
+      font-size: 0.82rem; color: var(--muted);
+      line-height: 1.65; transition: color 0.2s;
+    }
+
+    .section-difference {
+      padding: 100px 0;
+      background: var(--ink);
+      position: relative; overflow: hidden;
+    }
+    .section-difference::before {
+      content: 'HU AI N';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 18vw; color: rgba(255,255,255,0.02);
+      white-space: nowrap; pointer-events: none;
+      letter-spacing: 20px;
+    }
+    .diff-header { text-align: center; margin-bottom: 4rem; position: relative; z-index: 1; }
+    .diff-header .section-tag { justify-content: center; }
+    .diff-header .section-tag::before { display: none; }
+    .diff-header h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--white); letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .diff-header p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; color: rgba(255,255,255,0.45);
+      max-width: 620px; margin: 0 auto; line-height: 1.7;
+    }
+
+    .diff-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; background: rgba(255,255,255,0.06);
+      position: relative; z-index: 1;
+    }
+    .diff-card {
+      background: var(--ink-soft);
+      padding: 2.5rem 2rem;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .diff-card:hover { background: #232f47; }
+    .diff-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .diff-card:hover::after { transform: scaleX(1); }
+    .diff-icon {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .diff-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      color: var(--white); margin-bottom: 0.75rem;
+    }
+    .diff-card p {
+      font-size: 0.87rem; color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+    .diff-card p strong { color: rgba(255,255,255,0.8); }
+
+    .section-tools {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .tools-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .tools-header h2 {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: var(--ink);
+    }
+    .tools-header a {
+      color: var(--accent2); text-decoration: none;
+      font-size: 0.88rem; font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid var(--accent2);
+      padding-bottom: 2px; transition: opacity 0.2s;
+    }
+    .tools-header a:hover { opacity: 0.7; }
+
+    .tools-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); }
+    .tool-row {
+      display: grid; grid-template-columns: 60px 1fr auto;
+      align-items: center; gap: 2rem;
+      padding: 1.75rem 2rem;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none; color: inherit;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .tool-row:last-child { border-bottom: none; }
+    .tool-row:hover { background: var(--fog); }
+    .tool-row::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--accent);
+      transform: scaleY(0); transform-origin: top;
+      transition: transform 0.25s;
+    }
+    .tool-row:hover::before { transform: scaleY(1); }
+    .tool-row-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 1px;
+    }
+    .tool-row-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 1rem;
+      color: var(--ink); margin-bottom: 0.25rem;
+    }
+    .tool-row-desc {
+      font-size: 0.83rem; color: var(--muted); line-height: 1.5;
+    }
+    .tool-row-tags { display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .tool-row-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; letter-spacing: 0.5px;
+      background: var(--fog); border: 1px solid var(--rule);
+      padding: 2px 7px; border-radius: 2px; color: var(--muted);
+    }
+    .tool-row-status {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+      flex-shrink: 0;
+    }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; letter-spacing: 1px;
+      padding: 4px 10px; border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .sb-live { background: rgba(26,158,111,0.1); color: var(--live); border: 1px solid rgba(26,158,111,0.25); }
+    .sb-live::before { content:''; width:5px;height:5px;background:var(--live);border-radius:50%;animation:pulse 2s infinite; }
+    .sb-soon { background: rgba(200,134,26,0.08); color: var(--accent); border: 1px solid rgba(200,134,26,0.2); }
+    .sb-planned { background: var(--fog); color: var(--muted); border: 1px solid var(--rule); }
+    .tool-arrow { font-size: 1rem; color: var(--rule); transition: color 0.2s, transform 0.2s; }
+    .tool-row:hover .tool-arrow { color: var(--accent); transform: translate(3px,-3px); }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)} }
+
+    .tools-cta-bar {
+      margin-top: 2.5rem;
+      background: var(--fog); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 1.5rem 2rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .tools-cta-bar p { font-size: 0.9rem; color: var(--muted); }
+    .tools-cta-bar p strong { color: var(--ink); }
+    .btn-blue {
+      background: var(--accent2); color: var(--white);
+      padding: 10px 22px; border-radius: 4px;
+      text-decoration: none; font-weight: 600; font-size: 0.88rem;
+      transition: background 0.2s;
+    }
+    .btn-blue:hover { background: #155db5; }
+
+    .section-industries {
+      padding: 80px 0;
+      background: var(--fog);
+      border-top: 1px solid var(--rule);
+    }
+    .industries-inner {
+      display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;
+    }
+    .industries-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+    .industries-list {
+      display: flex; gap: 0; flex-wrap: wrap;
+      border: 1px solid var(--rule);
+    }
+    .industry-item {
+      padding: 0.75rem 1.5rem;
+      border-right: 1px solid var(--rule);
+      font-size: 0.82rem; font-weight: 500; color: var(--steel);
+      transition: all 0.2s; cursor: default;
+    }
+    .industry-item:last-child { border-right: none; }
+    .industry-item:hover { background: var(--ink); color: var(--white); }
+
+    .section-insights {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .insights-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--rule); }
+    .insight-card {
+      background: var(--white);
+      padding: 2.5rem 2rem;
+      text-decoration: none; display: block;
+      transition: background 0.2s;
+    }
+    .insight-card:hover { background: var(--fog); }
+    .insight-topic {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--accent2);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .insight-topic::before { content:''; width:16px; height:1px; background:var(--accent2); }
+    .insight-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 1rem;
+      color: var(--ink); line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+    .insight-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .insight-coming {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .section-cta {
+      padding: 100px 0;
+      background: var(--ink);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .section-cta::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: repeating-linear-gradient(90deg, var(--accent) 0,var(--accent) 40px, transparent 40px, transparent 80px);
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-inner h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--white); line-height: 1.05;
+      margin-bottom: 1.25rem; letter-spacing: -0.5px;
+    }
+    .cta-inner h2 span { color: var(--accent); }
+    .cta-inner p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem; color: rgba(255,255,255,0.45);
+      max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .cta-inner p em { color: rgba(255,255,255,0.75); font-style: italic; }
+    .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    footer {
+      background: #060b14;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 3rem 0 2rem;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand-name {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.2rem; color: var(--white); letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+    .footer-brand-name span { color: var(--accent); }
+    .footer-brand-tag { font-size: 0.78rem; color: var(--muted); line-height: 1.5; max-width: 290px; }
+    .footer-nav { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .footer-col h4 {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a { font-size: 0.83rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { font-size: 0.75rem; color: rgba(255,255,255,0.2); text-decoration: none; }
+    .footer-legal a:hover { color: rgba(255,255,255,0.5); }
+
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+
+    @media(max-width:900px) {
+      .intro-grid { grid-template-columns:1fr; gap:3rem; }
+      .intro-right { grid-template-columns:1fr; }
+      .diff-cards { grid-template-columns:1fr; }
+      .insights-grid { grid-template-columns:1fr; }
+      .hero-body { grid-template-columns:1fr; gap:2.5rem; }
+      .tool-row { grid-template-columns:40px 1fr; }
+      .tool-row-status { display:none; }
+      .footer-nav { gap:2rem; }
+    }
+    @media(max-width:600px) {
+      .nav-links { display:none; }
+      .hero-credentials { gap:1.5rem; }
+      .industries-list { flex-direction:column; }
+      .industry-item { border-right:none; border-bottom:1px solid var(--rule); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .ticker-track, .sb-live::before { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-hum">HUM</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/services/">Services</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/insights/">Insights</a></li>
+      <li><a href="/contact/" class="nav-contact">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-stripe"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span>HSEQI Engineering Tools &amp; Consultancy</span>
+      </div>
+      <h1>
+        Engineering decisions<br>
+        need <em>more than</em><br>
+        a <span class="amber">calculator.</span>
+      </h1>
+      <div class="hero-body">
+        <p class="hero-desc">
+          HUMAIN Engineering combines <strong>human engineering expertise</strong> with <strong>AI-enabled tools</strong> to support practical decision-making across health, safety, environment, quality, and integrity — delivering outputs that are rigorous, transparent, and usable in real operations.
+        </p>
+        <div class="hero-right">
+          <div class="hero-ctas">
+            <a href="/services/" class="btn-amber">Explore Services →</a>
+            <a href="/tools/" class="btn-ghost">View Tools</a>
+          </div>
+          <div class="hero-credentials">
+            <div class="cred-item">
+              <div class="cred-val">HSE<span>QI</span></div>
+              <div class="cred-label">Integrated Scope</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-val">AI<span>×</span>PE</div>
+              <div class="cred-label">Delivery Approach</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-val">Site</div>
+              <div class="cred-label">Practical Application</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Health Risk Support</span>
+      <span>Process Safety</span>
+      <span>Environmental Compliance</span>
+      <span>Technical Quality Assurance</span>
+      <span>Integrity Management</span>
+      <span>Risk Assessment Tools</span>
+      <span>Inspection Support</span>
+      <span>Engineering Decision Support</span>
+      <span>Health Risk Support</span>
+      <span>Process Safety</span>
+      <span>Environmental Compliance</span>
+      <span>Technical Quality Assurance</span>
+      <span>Integrity Management</span>
+      <span>Risk Assessment Tools</span>
+      <span>Inspection Support</span>
+      <span>Engineering Decision Support</span>
+    </div>
+  </div>
+
+  <section class="section-intro">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-left reveal">
+          <div class="section-tag">What We Do</div>
+          <h2>Practical HSEQI support, built for real operating environments.</h2>
+          <p>
+            HUMAIN Engineering develops tools, methods, and technical support for organisations that need more than generic guidance. Our focus is on making engineering decisions clearer, faster, and more defensible across the full HSEQI spectrum.
+          </p>
+          <p>
+            <strong>That means practical output, not vague theory.</strong> From process safety and asset integrity to environmental compliance, technical quality, and occupational risk support, every service is shaped for real industrial use.
+          </p>
+          <p>
+            AI helps accelerate delivery. Engineering judgement defines the limits, assumptions, and final standard of the work.
+          </p>
+        </div>
+        <div class="intro-right reveal reveal-d2">
+          <div class="service-cell">
+            <div class="sc-num">01 //</div>
+            <div class="sc-title">Health &amp; Occupational Risk</div>
+            <div class="sc-desc">Exposure assessment support, operational risk reviews, human factors input, and practical health-risk decision support for industrial environments.</div>
+          </div>
+          <div class="service-cell">
+            <div class="sc-num">02 //</div>
+            <div class="sc-title">Process &amp; Functional Safety</div>
+            <div class="sc-desc">HAZOP, LOPA, SIL assessment, ALARP demonstration, bow-tie studies, and defensible major hazard risk management.</div>
+          </div>
+          <div class="service-cell">
+            <div class="sc-num">03 //</div>
+            <div class="sc-title">Environment &amp; Regulatory Compliance</div>
+            <div class="sc-desc">Environmental risk support, emissions-related engineering tools, compliance-focused assessments, and structured reporting aligned with regulatory expectations.</div>
+          </div>
+          <div class="service-cell">
+            <div class="sc-num">04 //</div>
+            <div class="sc-title">Quality &amp; Technical Assurance</div>
+            <div class="sc-desc">Engineering verification, consistency checks, calculation review, methodology assurance, and technical documentation quality support.</div>
+          </div>
+          <div class="service-cell">
+            <div class="sc-num">05 //</div>
+            <div class="sc-title">Integrity &amp; Reliability</div>
+            <div class="sc-desc">Fitness-for-service, corrosion and degradation review, minimum thickness assessment, pressure system support, and integrity-based decision tools.</div>
+          </div>
+          <div class="service-cell">
+            <div class="sc-num">06 //</div>
+            <div class="sc-title">AI-Powered HSEQI Tools</div>
+            <div class="sc-desc">Bespoke calculators, engineering workflows, and decision-support tools developed for site-specific HSEQI applications with transparent assumptions and practical outputs.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-difference">
+    <div class="container">
+      <div class="diff-header reveal">
+        <div class="section-tag">The HUMAIN Difference</div>
+        <h2>Technology is useful. Judgement is essential.</h2>
+        <p>Every output is shaped to be practical, reviewable, and professionally usable — combining the speed of AI with engineering discipline, clear scope boundaries, and real-world application.</p>
+      </div>
+      <div class="diff-cards reveal">
+        <div class="diff-card">
+          <span class="diff-icon">01 // PRACTICAL</span>
+          <h3>Built around real decisions</h3>
+          <p>Tools and services are designed for situations where the result must support <strong>an actual operating, design, compliance, or risk decision</strong>, not just produce a number.</p>
+        </div>
+        <div class="diff-card">
+          <span class="diff-icon">02 // TRANSPARENT</span>
+          <h3>Assumptions are made visible</h3>
+          <p>Inputs, assumptions, scope limits, and intended use are stated clearly so outputs remain <strong>traceable, reviewable, and easier to challenge when needed</strong>.</p>
+        </div>
+        <div class="diff-card">
+          <span class="diff-icon">03 // STRUCTURED</span>
+          <h3>Designed for professional use</h3>
+          <p>Deliverables are shaped to fit <strong>engineering review, technical assurance, compliance support, and internal decision records</strong> rather than informal one-off calculations.</p>
+        </div>
+        <div class="diff-card">
+          <span class="diff-icon">04 // BROAD</span>
+          <h3>One platform, full HSEQI scope</h3>
+          <p>The platform is built to scale across <strong>health, safety, environment, quality, and integrity</strong>, so tools and services can evolve with client needs.</p>
+        </div>
+        <div class="diff-card">
+          <span class="diff-icon">05 // INTELLIGENT</span>
+          <h3>AI-enabled, not AI-unchecked</h3>
+          <p>AI is used to accelerate development and workflow efficiency, while <strong>engineering judgement controls the methodology, interpretation, and final output quality</strong>.</p>
+        </div>
+        <div class="diff-card">
+          <span class="diff-icon">06 // BESPOKE</span>
+          <h3>Adaptable to your context</h3>
+          <p>Whether you need a calculator, review workflow, integrity screen, or compliance-focused tool, the approach can be <strong>tailored to your site, process, or technical standard</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tools">
+    <div class="container">
+      <div class="tools-header reveal">
+        <div>
+          <div class="section-tag">Featured Tools</div>
+          <h2>Built for practical HSEQI decisions.</h2>
+        </div>
+        <a href="/tools/">Browse all tools →</a>
+      </div>
+
+      <div class="tools-list reveal reveal-d1">
+        <a class="tool-row" href="/tools/process-safety-time/">
+          <div class="tool-row-num">01</div>
+          <div class="tool-row-info">
+            <div class="tool-row-name">Process Safety Time Calculator</div>
+            <div class="tool-row-desc">Estimate available response time for overfill and escalation scenarios to support safeguard review and operational decision-making.</div>
+            <div class="tool-row-tags">
+              <span class="tool-row-tag">Safety</span>
+              <span class="tool-row-tag">Risk</span>
+              <span class="tool-row-tag">Operations</span>
+            </div>
+          </div>
+          <div class="tool-row-status">
+            <span class="status-badge sb-live">Live</span>
+            <span class="tool-arrow">↗</span>
+          </div>
+        </a>
+
+        <a class="tool-row" href="/tools/nelson-curve/">
+          <div class="tool-row-num">02</div>
+          <div class="tool-row-info">
+            <div class="tool-row-name">Nelson Curve Screening Tool</div>
+            <div class="tool-row-desc">Compare operating conditions against material-specific hydrogen attack screening limits to support integrity and materials review.</div>
+            <div class="tool-row-tags">
+              <span class="tool-row-tag">Integrity</span>
+              <span class="tool-row-tag">Materials</span>
+              <span class="tool-row-tag">Screening</span>
+            </div>
+          </div>
+          <div class="tool-row-status">
+            <span class="status-badge sb-soon">Soon</span>
+            <span class="tool-arrow">↗</span>
+          </div>
+        </a>
+
+        <a class="tool-row" href="/tools/release-rate/">
+          <div class="tool-row-num">03</div>
+          <div class="tool-row-info">
+            <div class="tool-row-name">Release Rate &amp; Dispersion Tools</div>
+            <div class="tool-row-desc">Support consequence, environmental, and emergency planning workflows with structured release and dispersion calculations.</div>
+            <div class="tool-row-tags">
+              <span class="tool-row-tag">Environment</span>
+              <span class="tool-row-tag">Consequence</span>
+              <span class="tool-row-tag">Response</span>
+            </div>
+          </div>
+          <div class="tool-row-status">
+            <span class="status-badge sb-planned">Planned</span>
+            <span class="tool-arrow">↗</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="tools-cta-bar reveal">
+        <p><strong>Need a bespoke HSEQI tool?</strong> We build site-specific tools for risk, integrity, compliance, and engineering decision support.</p>
+        <a href="/contact/" class="btn-blue">Request a Tool</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-industries">
+    <div class="container">
+      <div class="industries-inner">
+        <div class="industries-label">Industries Served</div>
+        <div class="industries-list">
+          <div class="industry-item">Oil &amp; Gas — Upstream</div>
+          <div class="industry-item">Refining &amp; Petrochemicals</div>
+          <div class="industry-item">Chemical Manufacturing</div>
+          <div class="industry-item">Energy &amp; Power</div>
+          <div class="industry-item">Pharmaceuticals</div>
+          <div class="industry-item">Utilities &amp; Infrastructure</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-insights">
+    <div class="container">
+      <div class="tools-header reveal">
+        <div>
+          <div class="section-tag">Technical Insights</div>
+          <h2>Written for real engineering use.</h2>
+        </div>
+      </div>
+      <div class="insights-grid reveal">
+        <div class="insight-card">
+          <div class="insight-topic">Integrity</div>
+          <h3>When should a screening tool stop and a deeper integrity assessment begin?</h3>
+          <p>A practical discussion on how screening tools should be positioned, where they add value, and where formal engineering assessment becomes necessary.</p>
+          <div class="insight-coming">// Coming Soon</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-topic">Quality</div>
+          <h3>Technical quality in engineering calculations: what reviewers actually need to see.</h3>
+          <p>Clear structure, assumptions, references, and reviewability are often what separates a usable engineering deliverable from one that creates delay.</p>
+          <div class="insight-coming">// Coming Soon</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-topic">HSEQI</div>
+          <h3>Why integrated HSEQI support works better than isolated discipline decisions.</h3>
+          <p>Many site decisions sit across multiple boundaries at once. This piece explores why integrated thinking improves clarity, consistency, and defensibility.</p>
+          <div class="insight-coming">// Coming Soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-cta">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <h2>An HSEQI challenge<br>worth <span>solving?</span></h2>
+        <p>Whether you need a bespoke tool, technical review, or structured support for a safety, environmental, quality, or integrity decision — <em>we'd like to hear about it.</em></p>
+        <div class="cta-actions">
+          <a href="/contact/" class="btn-amber">Start a Conversation →</a>
+          <a href="/services/" class="btn-ghost">Explore Services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
+        <div class="footer-brand-tag">AI-enabled HSEQI engineering tools and consultancy, built for real industrial decisions.</div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services/">Health &amp; Risk Support</a></li>
+            <li><a href="/services/">Safety &amp; Compliance</a></li>
+            <li><a href="/services/">Quality Assurance</a></li>
+            <li><a href="/services/">Integrity &amp; Reliability</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/tools/">Tools</a></li>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
