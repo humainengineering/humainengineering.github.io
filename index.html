@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HUMAIN Engineering — Safety Intelligence, Engineered by Experience</title>
+  <meta name="description" content="Specialist process safety, functional safety and HSE consultancy. AI-powered tools built on real incident experience — COMAH, ALARP, LOPA, IEC 61511, integrity management."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:       #0a0f1a;
+      --ink-soft:  #1c2333;
+      --steel:     #2d3a52;
+      --fog:       #f2f4f7;
+      --white:     #ffffff;
+      --rule:      #dde2eb;
+      --accent:    #c8861a;      /* engineering amber — hazard tape, caution */
+      --accent2:   #1a6fc8;      /* safety blue */
+      --muted:     #6b7a96;
+      --live:      #1a9e6f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── UTILITY ─── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    .mono { font-family: 'Courier New', monospace; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(10,15,26,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-inner {
+      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+      height: 62px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: baseline; gap: 0; text-decoration: none;
+    }
+    .nav-brand-hu { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
+    .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
+    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:1.35rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; font-size:0.9rem; }
+
+    .nav-links { display:flex; align-items:center; gap:2.5rem; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; letter-spacing:0.3px; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--white); }
+    .nav-links .nav-contact {
+      color: var(--accent) !important;
+      border: 1px solid rgba(200,134,26,0.4);
+      padding: 7px 16px; border-radius: 4px;
+      transition: all 0.2s !important;
+    }
+    .nav-links .nav-contact:hover { background: var(--accent); color: var(--ink) !important; border-color: var(--accent); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      background: var(--ink);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 0 0;
+      position: relative; overflow: hidden;
+    }
+
+    /* Structural grid overlay — like engineering drawing paper */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    /* Hazard stripe accent — top edge */
+    .hero-stripe {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--accent) 0px, var(--accent) 40px,
+        var(--ink) 40px, var(--ink) 80px
+      );
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+      padding-top: 160px; padding-bottom: 80px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+    .hero-eyebrow span {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 3px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+      line-height: 1.0;
+      color: var(--white);
+      letter-spacing: -1px;
+      max-width: 900px;
+      margin-bottom: 2rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.35);
+    }
+    .hero h1 .amber { color: var(--accent); -webkit-text-stroke: 0; }
+
+    .hero-body {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: end;
+    }
+
+    .hero-desc {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+      max-width: 500px;
+    }
+    .hero-desc strong { color: rgba(255,255,255,0.85); font-style: italic; }
+
+    .hero-right { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-amber {
+      background: var(--accent); color: var(--ink);
+      padding: 13px 26px; border-radius: 4px;
+      text-decoration: none; font-weight: 600; font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-amber:hover { background: #e09a25; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,134,26,0.35); }
+
+    .btn-ghost {
+      background: transparent; color: rgba(255,255,255,0.7);
+      padding: 13px 26px; border-radius: 4px;
+      text-decoration: none; font-weight: 500; font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+
+    .hero-credentials {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .cred-item { }
+    .cred-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1.6rem; color: var(--white);
+    }
+    .cred-val span { color: var(--accent); }
+    .cred-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.68rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      background: var(--accent);
+      overflow: hidden; white-space: nowrap;
+      padding: 10px 0;
+    }
+    .ticker-track {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-track span {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--ink);
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 0 2.5rem;
+    }
+    .ticker-track span::before { content: '◆  '; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── WHAT WE DO ─── */
+    .section-intro {
+      padding: 100px 0;
+      background: var(--fog);
+    }
+
+    .intro-grid {
+      display: grid; grid-template-columns: 5fr 7fr; gap: 80px; align-items: start;
+    }
+
+    .intro-left {}
+    .section-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 3px;
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-tag::before { content:''; width:20px; height:1px; background:var(--accent); }
+
+    .intro-left h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: clamp(2rem, 3.5vw, 2.8rem);
+      line-height: 1.15; color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .intro-left p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; color: var(--muted);
+      line-height: 1.8; margin-bottom: 1rem;
+    }
+    .intro-left p strong { color: var(--ink); font-style: italic; }
+
+    .intro-right {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .service-cell {
+      background: var(--white);
+      padding: 2rem 1.75rem;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .service-cell:hover { background: var(--ink); }
+    .service-cell:hover .sc-num { color: var(--accent); }
+    .service-cell:hover .sc-title { color: var(--white); }
+    .service-cell:hover .sc-desc { color: rgba(255,255,255,0.5); }
+
+    .sc-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.68rem; color: var(--accent);
+      letter-spacing: 2px; margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+    .sc-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 0.95rem;
+      color: var(--ink); margin-bottom: 0.5rem;
+      transition: color 0.2s;
+      line-height: 1.3;
+    }
+    .sc-desc {
+      font-size: 0.82rem; color: var(--muted);
+      line-height: 1.65; transition: color 0.2s;
+    }
+
+    /* ─── THE HUMAIN DIFFERENCE ─── */
+    .section-difference {
+      padding: 100px 0;
+      background: var(--ink);
+      position: relative; overflow: hidden;
+    }
+    .section-difference::before {
+      content: 'HU AI N';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 18vw; color: rgba(255,255,255,0.02);
+      white-space: nowrap; pointer-events: none;
+      letter-spacing: 20px;
+    }
+
+    .diff-header { text-align: center; margin-bottom: 4rem; position: relative; z-index: 1; }
+    .diff-header .section-tag { justify-content: center; }
+    .diff-header .section-tag::before { display: none; }
+    .diff-header h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--white); letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .diff-header p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; color: rgba(255,255,255,0.45);
+      max-width: 520px; margin: 0 auto; line-height: 1.7;
+    }
+
+    .diff-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; background: rgba(255,255,255,0.06);
+      position: relative; z-index: 1;
+    }
+
+    .diff-card {
+      background: var(--ink-soft);
+      padding: 2.5rem 2rem;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .diff-card:hover { background: #232f47; }
+    .diff-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .diff-card:hover::after { transform: scaleX(1); }
+
+    .diff-icon {
+      font-size: 1.8rem; margin-bottom: 1.25rem;
+      display: block;
+    }
+    .diff-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      color: var(--white); margin-bottom: 0.75rem;
+    }
+    .diff-card p {
+      font-size: 0.87rem; color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+    .diff-card p strong { color: rgba(255,255,255,0.8); }
+
+    /* ─── TOOLS ─── */
+    .section-tools {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .tools-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .tools-header h2 {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: var(--ink);
+    }
+    .tools-header a {
+      color: var(--accent2); text-decoration: none;
+      font-size: 0.88rem; font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid var(--accent2);
+      padding-bottom: 2px; transition: opacity 0.2s;
+    }
+    .tools-header a:hover { opacity: 0.7; }
+
+    .tools-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); }
+
+    .tool-row {
+      display: grid; grid-template-columns: 60px 1fr auto;
+      align-items: center; gap: 2rem;
+      padding: 1.75rem 2rem;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none; color: inherit;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .tool-row:last-child { border-bottom: none; }
+    .tool-row:hover { background: var(--fog); }
+    .tool-row::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--accent);
+      transform: scaleY(0); transform-origin: top;
+      transition: transform 0.25s;
+    }
+    .tool-row:hover::before { transform: scaleY(1); }
+
+    .tool-row-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .tool-row-info {}
+    .tool-row-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 1rem;
+      color: var(--ink); margin-bottom: 0.25rem;
+    }
+    .tool-row-desc {
+      font-size: 0.83rem; color: var(--muted); line-height: 1.5;
+    }
+    .tool-row-tags { display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .tool-row-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; letter-spacing: 0.5px;
+      background: var(--fog); border: 1px solid var(--rule);
+      padding: 2px 7px; border-radius: 2px; color: var(--muted);
+    }
+
+    .tool-row-status {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+      flex-shrink: 0;
+    }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; letter-spacing: 1px;
+      padding: 4px 10px; border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .sb-live { background: rgba(26,158,111,0.1); color: var(--live); border: 1px solid rgba(26,158,111,0.25); }
+    .sb-live::before { content:''; width:5px;height:5px;background:var(--live);border-radius:50%;animation:pulse 2s infinite; }
+    .sb-soon { background: rgba(200,134,26,0.08); color: var(--accent); border: 1px solid rgba(200,134,26,0.2); }
+    .sb-planned { background: var(--fog); color: var(--muted); border: 1px solid var(--rule); }
+
+    .tool-arrow { font-size: 1rem; color: var(--rule); transition: color 0.2s, transform 0.2s; }
+    .tool-row:hover .tool-arrow { color: var(--accent); transform: translate(3px,-3px); }
+
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)} }
+
+    .tools-cta-bar {
+      margin-top: 2.5rem;
+      background: var(--fog); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 1.5rem 2rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .tools-cta-bar p { font-size: 0.9rem; color: var(--muted); }
+    .tools-cta-bar p strong { color: var(--ink); }
+    .btn-blue {
+      background: var(--accent2); color: var(--white);
+      padding: 10px 22px; border-radius: 4px;
+      text-decoration: none; font-weight: 600; font-size: 0.88rem;
+      transition: background 0.2s;
+    }
+    .btn-blue:hover { background: #155db5; }
+
+    /* ─── INDUSTRIES ─── */
+    .section-industries {
+      padding: 80px 0;
+      background: var(--fog);
+      border-top: 1px solid var(--rule);
+    }
+
+    .industries-inner {
+      display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;
+    }
+    .industries-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+    .industries-list {
+      display: flex; gap: 0; flex-wrap: wrap;
+      border: 1px solid var(--rule);
+    }
+    .industry-item {
+      padding: 0.75rem 1.5rem;
+      border-right: 1px solid var(--rule);
+      font-size: 0.82rem; font-weight: 500; color: var(--steel);
+      transition: all 0.2s; cursor: default;
+    }
+    .industry-item:last-child { border-right: none; }
+    .industry-item:hover { background: var(--ink); color: var(--white); }
+
+    /* ─── INSIGHTS ─── */
+    .section-insights {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .insights-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--rule); }
+
+    .insight-card {
+      background: var(--white);
+      padding: 2.5rem 2rem;
+      text-decoration: none; display: block;
+      transition: background 0.2s;
+    }
+    .insight-card:hover { background: var(--fog); }
+
+    .insight-topic {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--accent2);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .insight-topic::before { content:''; width:16px; height:1px; background:var(--accent2); }
+
+    .insight-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 1rem;
+      color: var(--ink); line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+    .insight-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .insight-coming {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    /* ─── CTA STRIP ─── */
+    .section-cta {
+      padding: 100px 0;
+      background: var(--ink);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .section-cta::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: repeating-linear-gradient(90deg, var(--accent) 0,var(--accent) 40px, transparent 40px, transparent 80px);
+    }
+
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-inner h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--white); line-height: 1.05;
+      margin-bottom: 1.25rem; letter-spacing: -0.5px;
+    }
+    .cta-inner h2 span { color: var(--accent); }
+    .cta-inner p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem; color: rgba(255,255,255,0.45);
+      max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .cta-inner p em { color: rgba(255,255,255,0.75); font-style: italic; }
+
+    .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #060b14;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 3rem 0 2rem;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand { }
+    .footer-brand-name {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.2rem; color: var(--white); letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+    .footer-brand-name span { color: var(--accent); }
+    .footer-brand-tag { font-size: 0.78rem; color: var(--muted); line-height: 1.5; max-width: 260px; }
+
+    .footer-nav { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .footer-col h4 {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a { font-size: 0.83rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+
+    .footer-bottom {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { font-size: 0.75rem; color: rgba(255,255,255,0.2); text-decoration: none; }
+    .footer-legal a:hover { color: rgba(255,255,255,0.5); }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+
+    /* ─── MOBILE ─── */
+    @media(max-width:900px) {
+      .intro-grid { grid-template-columns:1fr; gap:3rem; }
+      .intro-right { grid-template-columns:1fr; }
+      .diff-cards { grid-template-columns:1fr; }
+      .insights-grid { grid-template-columns:1fr; }
+      .hero-body { grid-template-columns:1fr; gap:2.5rem; }
+      .tool-row { grid-template-columns:40px 1fr; }
+      .tool-row-status { display:none; }
+      .footer-nav { gap:2rem; }
+    }
+    @media(max-width:600px) {
+      .nav-links { display:none; }
+      .hero-credentials { gap:1.5rem; }
+      .industries-list { flex-direction:column; }
+      .industry-item { border-right:none; border-bottom:1px solid var(--rule); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-hu">HU</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/services/">Services</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/insights/">Insights</a></li>
+      <li><a href="/contact/" class="nav-contact">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Process &amp; Functional Safety Consultancy</span>
+    </div>
+    <h1>
+      Safety decisions<br>
+      need <em>more than</em><br>
+      a <span class="amber">spreadsheet.</span>
+    </h1>
+    <div class="hero-body">
+      <p class="hero-desc">
+        HUMAIN Engineering combines <strong>AI-generated calculation tools</strong> with deep field experience across COMAH Top Tier refining, upstream oil &amp; gas, and major hazard operations — delivering consultancy that is fast, rigorous, and defensible.
+      </p>
+      <div class="hero-right">
+        <div class="hero-ctas">
+          <a href="/tools/" class="btn-amber">Explore Free Tools →</a>
+          <a href="/services/" class="btn-ghost">Our Services</a>
+        </div>
+        <div class="hero-credentials">
+          <div class="cred-item">
+            <div class="cred-val">12<span>+</span></div>
+            <div class="cred-label">Years Field Experience</div>
+          </div>
+          <div class="cred-item">
+            <div class="cred-val">5</div>
+            <div class="cred-label">Service Disciplines</div>
+          </div>
+          <div class="cred-item">
+            <div class="cred-val">AI<span>×</span>PE</div>
+            <div class="cred-label">Our Methodology</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>ALARP Quantification</span>
+    <span>COMAH Top Tier</span>
+    <span>IEC 61511 SIL Verification</span>
+    <span>LOPA &amp; Bow-Tie</span>
+    <span>HAZOP Facilitation</span>
+    <span>API 941 HTHA Assessment</span>
+    <span>DSEAR / ATEX</span>
+    <span>Integrity Management</span>
+    <span>PSV Sizing API 520/521</span>
+    <span>ALARP Quantification</span>
+    <span>COMAH Top Tier</span>
+    <span>IEC 61511 SIL Verification</span>
+    <span>LOPA &amp; Bow-Tie</span>
+    <span>HAZOP Facilitation</span>
+    <span>API 941 HTHA Assessment</span>
+    <span>DSEAR / ATEX</span>
+    <span>Integrity Management</span>
+    <span>PSV Sizing API 520/521</span>
+  </div>
+</div>
+
+<!-- WHAT WE DO -->
+<section class="section-intro">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-left reveal">
+        <div class="section-tag">What We Do</div>
+        <h2>Built on real incidents, not textbooks.</h2>
+        <p>
+          Most process safety tools are built by software engineers who have never stood next to a flare stack during an upset, or written a COMAH Safety Report under regulatory scrutiny.
+        </p>
+        <p>
+          <strong>Ours are different.</strong> Every calculation behind HUMAIN's tools traces back to real engineering decisions made on live plant — from knock-out drum sizing failures to LOPA studies on COMAH Top Tier refinery units.
+        </p>
+        <p>
+          AI accelerates the build. Experience defines the boundaries. You get the speed of technology with the judgement of a qualified engineer.
+        </p>
+      </div>
+      <div class="intro-right reveal reveal-d2">
+        <div class="service-cell">
+          <div class="sc-num">01 //</div>
+          <div class="sc-title">Process Safety &amp; COMAH</div>
+          <div class="sc-desc">ALARP demonstration, LOPA, HAZOP, bow-tie, major accident hazard management, COMAH Safety Reports and Reg 6 notifications.</div>
+        </div>
+        <div class="service-cell">
+          <div class="sc-num">02 //</div>
+          <div class="sc-title">Functional Safety — IEC 61511</div>
+          <div class="sc-desc">SIL determination, LOPA to SIL, SIL verification, FSA Stage 1–3, SIS design review. TÜV-certified engineering methodology.</div>
+        </div>
+        <div class="service-cell">
+          <div class="sc-num">03 //</div>
+          <div class="sc-title">HSE &amp; Regulatory Compliance</div>
+          <div class="sc-desc">PSSR, DSEAR, ATEX zoning, occupational safety management systems. Designed for UK and international regulatory frameworks.</div>
+        </div>
+        <div class="service-cell">
+          <div class="sc-num">04 //</div>
+          <div class="sc-title">Inspection &amp; Integrity Management</div>
+          <div class="sc-desc">Fitness-for-service per API 579, t-min/t-alarm derivation, corrosion assessment, pressure system integrity, PSV sizing API 520/526.</div>
+        </div>
+        <div class="service-cell">
+          <div class="sc-num">05 //</div>
+          <div class="sc-title">AI-Powered Engineering Tools</div>
+          <div class="sc-desc">Bespoke calculation tools built for your specific process or regulatory context. From ALARP quantification to site-specific risk tools.</div>
+        </div>
+        <div class="service-cell">
+          <div class="sc-num">06 //</div>
+          <div class="sc-title">Technical Reporting &amp; Expert Review</div>
+          <div class="sc-desc">Independent review of safety cases, hazard studies, and engineering justification documents. Defensible, structured, HSE-facing output.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE HUMAIN DIFFERENCE -->
+<section class="section-difference">
+  <div class="container">
+    <div class="diff-header reveal">
+      <div class="section-tag">The HUMAIN Difference</div>
+      <h2>Why AI alone is not enough.</h2>
+      <p>Every AI-generated output on this platform is checked, challenged, and signed off by an engineer who has applied these methods on real, operating hazardous plant.</p>
+    </div>
+    <div class="diff-cards reveal">
+      <div class="diff-card">
+        <span class="diff-icon">⚙️</span>
+        <h3>Tools built from real scenarios</h3>
+        <p>The ALARP/CBA tool wasn't designed in the abstract — it reflects <strong>actual COMAH Top Tier risk reduction decisions</strong>, where the numbers had to hold up against HSE scrutiny.</p>
+      </div>
+      <div class="diff-card">
+        <span class="diff-icon">📐</span>
+        <h3>Standards, not just formulas</h3>
+        <p>References are explicit: <strong>Smith 2020, IEC 61511:2016, API 941, CCPS LOPA, HSE ALARP guidance.</strong> You can trace every calculation back to its published source.</p>
+      </div>
+      <div class="diff-card">
+        <span class="diff-icon">🔍</span>
+        <h3>Assumptions stated, not hidden</h3>
+        <p>Every tool documents its <strong>limitations, input assumptions, and scope boundaries</strong>. No black boxes. If a number could be misleading, we say so.</p>
+      </div>
+      <div class="diff-card">
+        <span class="diff-icon">🌍</span>
+        <h3>Cross-sector, international</h3>
+        <p>Experience spans <strong>Gulf of Suez upstream operations</strong> and <strong>UK COMAH Top Tier refining</strong> — giving genuine breadth across regulatory regimes and process types.</p>
+      </div>
+      <div class="diff-card">
+        <span class="diff-icon">⚡</span>
+        <h3>AI speed, engineer judgement</h3>
+        <p>Tools are generated using AI, tested against <strong>known engineering cases</strong>, and refined iteratively. You get the computation speed of software with the scrutiny of a qualified engineer.</p>
+      </div>
+      <div class="diff-card">
+        <span class="diff-icon">📄</span>
+        <h3>Outputs you can actually use</h3>
+        <p>Results are formatted for <strong>regulatory submission, safety reports, and engineering records</strong> — not just for internal use. Built for the end document in mind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section-tools">
+  <div class="container">
+    <div class="tools-header reveal">
+      <div>
+        <div class="section-tag">Free Engineering Tools</div>
+        <h2>Use them. Test them. Trust them.</h2>
+      </div>
+      <a href="/tools/">View all tools →</a>
+    </div>
+
+    <div class="tools-list reveal">
+      <a href="/tools/alarp.html" class="tool-row">
+        <div class="tool-row-num">T-01</div>
+        <div class="tool-row-info">
+          <div class="tool-row-name">ALARP / Cost-Benefit Analysis Tool</div>
+          <div class="tool-row-desc">Quantitative ALARP demonstration using HSE CBA methodology and Smith 2020 framework. Live Bank of England CPI inflation adjustment for VoPF. Structured output suitable for safety reports.</div>
+          <div class="tool-row-tags">
+            <span class="tool-row-tag">HSE CBA</span>
+            <span class="tool-row-tag">Smith 2020</span>
+            <span class="tool-row-tag">VoPF</span>
+            <span class="tool-row-tag">BoE CPI</span>
+            <span class="tool-row-tag">LOPA Input</span>
+          </div>
+        </div>
+        <div class="tool-row-status">
+          <span class="status-badge sb-live">Live</span>
+          <span class="tool-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="/tools/nelson.html" class="tool-row">
+        <div class="tool-row-num">T-02</div>
+        <div class="tool-row-info">
+          <div class="tool-row-name">Nelson Curve HTHA Calculator</div>
+          <div class="tool-row-desc">High Temperature Hydrogen Attack assessment per API 941. Check material operating envelope against Nelson Curves — temperature vs hydrogen partial pressure — with clear safe/unsafe determination.</div>
+          <div class="tool-row-tags">
+            <span class="tool-row-tag">API 941</span>
+            <span class="tool-row-tag">Nelson Curves</span>
+            <span class="tool-row-tag">HTHA</span>
+            <span class="tool-row-tag">Material Selection</span>
+          </div>
+        </div>
+        <div class="tool-row-status">
+          <span class="status-badge sb-live">Live</span>
+          <span class="tool-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="/tools/" class="tool-row">
+        <div class="tool-row-num">T-03</div>
+        <div class="tool-row-info">
+          <div class="tool-row-name">LOPA Worksheet</div>
+          <div class="tool-row-desc">Full Layer of Protection Analysis from initiating event frequency through IPL credit allocation to mitigated frequency and SIL target. CCPS methodology, exportable output.</div>
+          <div class="tool-row-tags">
+            <span class="tool-row-tag">CCPS</span>
+            <span class="tool-row-tag">IPL Credits</span>
+            <span class="tool-row-tag">SIL Target</span>
+            <span class="tool-row-tag">IEC 61511</span>
+          </div>
+        </div>
+        <div class="tool-row-status">
+          <span class="status-badge sb-soon">Coming Soon</span>
+          <span class="tool-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="/tools/" class="tool-row">
+        <div class="tool-row-num">T-04</div>
+        <div class="tool-row-info">
+          <div class="tool-row-name">PSV Sizing Calculator</div>
+          <div class="tool-row-desc">Pressure relief valve sizing per API 520/526. Gas, liquid, two-phase flow. Multiple overpressure scenarios. NH₄HS fouling flag for refinery HDS service.</div>
+          <div class="tool-row-tags">
+            <span class="tool-row-tag">API 520</span>
+            <span class="tool-row-tag">API 526</span>
+            <span class="tool-row-tag">Two-Phase</span>
+            <span class="tool-row-tag">Refinery</span>
+          </div>
+        </div>
+        <div class="tool-row-status">
+          <span class="status-badge sb-planned">Planned</span>
+          <span class="tool-arrow">↗</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="tools-cta-bar reveal">
+      <p><strong>Need a bespoke calculation tool?</strong> We build site-specific or process-specific tools on request — from stored energy calculators to custom COMAH inventory trackers.</p>
+      <a href="/contact/" class="btn-blue">Request a Tool</a>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="section-industries">
+  <div class="container">
+    <div class="industries-inner">
+      <div class="industries-label">Industries Served</div>
+      <div class="industries-list">
+        <div class="industry-item">Oil &amp; Gas — Upstream</div>
+        <div class="industry-item">Refining &amp; Petrochemicals</div>
+        <div class="industry-item">Chemical Manufacturing</div>
+        <div class="industry-item">Power Generation</div>
+        <div class="industry-item">Pharmaceuticals</div>
+        <div class="industry-item">Water &amp; Utilities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="section-insights">
+  <div class="container">
+    <div class="tools-header reveal">
+      <div>
+        <div class="section-tag">Technical Insights</div>
+        <h2>Written by engineers. For engineers.</h2>
+      </div>
+    </div>
+    <div class="insights-grid reveal">
+      <div class="insight-card">
+        <div class="insight-topic">ALARP / CBA</div>
+        <h3>When does Cost-Benefit Analysis actually hold up to HSE scrutiny?</h3>
+        <p>A critical examination of the Smith 2020 methodology, VoPF assumptions, and where quantitative ALARP arguments are strongest — and where they can unravel.</p>
+        <div class="insight-coming">// Coming Soon</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-topic">LOPA</div>
+        <h3>The double jeopardy rule: what it actually means, and where engineers get it wrong.</h3>
+        <p>Double jeopardy in LOPA is one of the most misapplied concepts in risk assessment. Worked examples from real studies — including cases where it was incorrectly invoked.</p>
+        <div class="insight-coming">// Coming Soon</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-topic">COMAH</div>
+        <h3>COMAH Regulation 6 notification: a practical guide that HSE guidance doesn't give you.</h3>
+        <p>Inventory classification, Schedule 1 Part 2 aggregation, threshold calculations, and how to structure a defensible notification when your inventory is borderline.</p>
+        <div class="insight-coming">// Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-cta">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <h2>A process safety<br>challenge worth <span>solving?</span></h2>
+      <p>Whether you need a COMAH safety case review, a bespoke calculation tool, or a second opinion on a LOPA — <em>we'd like to hear about it.</em></p>
+      <div class="cta-actions">
+        <a href="/contact/" class="btn-amber">Start a Conversation →</a>
+        <a href="/tools/" class="btn-ghost">Browse Free Tools</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-name">HU<span>AI</span>N ENGINEERING</div>
+        <div class="footer-brand-tag">AI-powered process safety tools and consultancy. Built on real incident experience.</div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services/">Process Safety</a></li>
+            <li><a href="/services/">Functional Safety</a></li>
+            <li><a href="/services/">HSE Compliance</a></li>
+            <li><a href="/services/">Integrity Management</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="/tools/alarp.html">ALARP / CBA Tool</a></li>
+            <li><a href="/tools/nelson.html">Nelson Curve HTHA</a></li>
+            <li><a href="/tools/">LOPA Worksheet</a></li>
+            <li><a href="/tools/">All Tools</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
