@@ -49,9 +49,9 @@
     .nav-brand {
       display: flex; align-items: baseline; gap: 0; text-decoration: none;
     }
-    .nav-brand-hu { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
+    .nav-brand-hum { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
     .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
-    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:1.35rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; font-size:0.9rem; }
+    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:0.9rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; }
 
     .nav-links { display:flex; align-items:center; gap:2.5rem; list-style:none; }
     .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; letter-spacing:0.3px; transition:color 0.2s; }
@@ -614,11 +614,10 @@
 <nav>
   <div class="nav-inner">
     <a href="/" class="nav-brand">
-      <span class="nav-brand-hu">HU</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
+      <span class="nav-brand-hum">HUM</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
     </a>
     <ul class="nav-links">
       <li><a href="/services/">Services</a></li>
-      <li><a href="/tools/">Tools</a></li>
       <li><a href="/insights/">Insights</a></li>
       <li><a href="/contact/" class="nav-contact">Get in Touch</a></li>
     </ul>
@@ -645,7 +644,7 @@
       </p>
       <div class="hero-right">
         <div class="hero-ctas">
-          <a href="/tools/" class="btn-amber">Explore Free Tools →</a>
+          <a href="/services/" class="btn-amber">Our Services →</a>
           <a href="/services/" class="btn-ghost">Our Services</a>
         </div>
         <div class="hero-credentials">
@@ -787,8 +786,8 @@
   </div>
 </section>
 
-<!-- TOOLS -->
-<section class="section-tools">
+<!-- TOOLS - hidden, managed separately -->
+<section class="section-tools" style="display:none">
   <div class="container">
     <div class="tools-header reveal">
       <div>
@@ -937,7 +936,7 @@
       <p>Whether you need a COMAH safety case review, a bespoke calculation tool, or a second opinion on a LOPA — <em>we'd like to hear about it.</em></p>
       <div class="cta-actions">
         <a href="/contact/" class="btn-amber">Start a Conversation →</a>
-        <a href="/tools/" class="btn-ghost">Browse Free Tools</a>
+        <a href="/contact/" class="btn-ghost">Start a Conversation</a>
       </div>
     </div>
   </div>
@@ -948,7 +947,7 @@
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
-        <div class="footer-brand-name">HU<span>AI</span>N ENGINEERING</div>
+        <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
         <div class="footer-brand-tag">AI-powered process safety tools and consultancy. Built on real incident experience.</div>
       </div>
       <div class="footer-nav">
@@ -962,19 +961,10 @@
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Tools</h4>
-          <ul>
-            <li><a href="/tools/alarp.html">ALARP / CBA Tool</a></li>
-            <li><a href="/tools/nelson.html">Nelson Curve HTHA</a></li>
-            <li><a href="/tools/">LOPA Worksheet</a></li>
-            <li><a href="/tools/">All Tools</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
           <h4>Company</h4>
           <ul>
             <li><a href="/insights/">Insights</a></li>
-            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
           </ul>
         </div>
       </div>
