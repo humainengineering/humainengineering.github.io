@@ -1,2 +1,2 @@
 # humainengineering.github.io
-Humain Engineering — Process Safety Tools
+Humain Engineering — Delivering HSEQI Excellence Through Engineering, Data, and Intelligent Automation
