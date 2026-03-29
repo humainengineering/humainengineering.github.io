@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — HUMAIN Engineering</title>
+  <meta name="description" content="Process safety, functional safety, HSE compliance and integrity management consultancy. AI-powered tools validated by experienced engineers."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0f1a; --ink-soft: #1c2333; --steel: #2d3a52;
+      --fog: #f2f4f7; --white: #ffffff; --rule: #dde2eb;
+      --accent: #c8861a; --accent2: #1a6fc8; --muted: #6b7a96; --live: #1a9e6f;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Instrument Sans', sans-serif; background: var(--white); color: var(--ink); overflow-x: hidden; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: rgba(10,15,26,0.96); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .nav-inner { max-width: 1140px; margin: 0 auto; padding: 0 2rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: baseline; text-decoration: none; }
+    .nav-brand-hum { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
+    .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
+    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:0.9rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; }
+    .nav-links { display:flex; align-items:center; gap:2.5rem; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--white); }
+    .nav-links .nav-contact { color:var(--accent) !important; border:1px solid rgba(200,134,26,0.4); padding:7px 16px; border-radius:4px; transition:all 0.2s !important; }
+    .nav-links .nav-contact:hover { background:var(--accent); color:var(--ink) !important; }
+
+    /* PAGE HERO */
+    .page-hero { background: var(--ink); padding: 140px 0 80px; position: relative; overflow: hidden; }
+    .page-hero-bg { position:absolute; inset:0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px); background-size:80px 80px; }
+    .hero-stripe { position:absolute; top:0; left:0; right:0; height:4px; background: repeating-linear-gradient(90deg, var(--accent) 0,var(--accent) 40px, var(--ink) 40px, var(--ink) 80px); }
+    .page-hero-inner { position: relative; z-index: 1; }
+    .section-tag { font-family:'Courier New',monospace; font-size:0.7rem; color:var(--accent); text-transform:uppercase; letter-spacing:3px; margin-bottom:1.25rem; display:flex; align-items:center; gap:10px; }
+    .section-tag::before { content:''; width:20px; height:1px; background:var(--accent); }
+    .page-hero h1 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2.5rem,5vw,4.5rem); color:var(--white); line-height:1.0; letter-spacing:-0.5px; margin-bottom:1.5rem; max-width:700px; }
+    .page-hero p { font-family:'Instrument Serif',serif; font-size:1.15rem; color:rgba(255,255,255,0.5); max-width:580px; line-height:1.75; }
+
+    /* SERVICES MAIN */
+    .section-services { padding: 0; background: var(--white); }
+
+    .service-block {
+      border-bottom: 1px solid var(--rule);
+      padding: 80px 0;
+    }
+    .service-block:last-child { border-bottom: none; }
+    .service-block:nth-child(even) { background: var(--fog); }
+
+    .service-block-inner {
+      display: grid; grid-template-columns: 2fr 3fr; gap: 80px; align-items: start;
+    }
+
+    .service-left {}
+    .service-num {
+      font-family:'Courier New',monospace; font-size:0.68rem;
+      color:var(--accent); letter-spacing:2px; margin-bottom:1rem;
+    }
+    .service-left h2 {
+      font-family:'Syne',sans-serif; font-weight:700;
+      font-size:clamp(1.6rem,2.5vw,2.2rem);
+      color:var(--ink); line-height:1.15; margin-bottom:1rem;
+    }
+    .service-left p {
+      font-family:'Instrument Serif',serif;
+      font-size:1rem; color:var(--muted); line-height:1.8;
+    }
+    .service-left p strong { color:var(--ink); font-style:italic; }
+
+    .service-right {}
+    .service-deliverables {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--rule); border: 1px solid var(--rule);
+      margin-bottom: 2rem;
+    }
+    .deliverable {
+      background: var(--white);
+      padding: 1.25rem 1.5rem;
+      display: flex; gap: 0.75rem; align-items: flex-start;
+    }
+    .service-block:nth-child(even) .deliverable { background: var(--white); }
+    .deliverable-tick {
+      font-family:'Courier New',monospace; font-size:0.7rem;
+      color:var(--accent); margin-top:2px; flex-shrink:0;
+    }
+    .deliverable-text { font-size:0.85rem; color:var(--steel); line-height:1.5; }
+
+    .service-standards {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .std-tag {
+      font-family:'Courier New',monospace; font-size:0.65rem;
+      background: var(--ink); color: rgba(255,255,255,0.6);
+      padding: 4px 10px; border-radius: 2px; letter-spacing:0.5px;
+    }
+
+    /* APPROACH */
+    .section-approach {
+      padding: 100px 0; background: var(--ink);
+      position: relative; overflow: hidden;
+    }
+    .section-approach::before {
+      content:'HUMAIN'; position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      font-family:'Syne',sans-serif; font-weight:800;
+      font-size:20vw; color:rgba(255,255,255,0.02);
+      pointer-events:none; letter-spacing:10px; white-space:nowrap;
+    }
+    .approach-header { text-align:center; margin-bottom:4rem; position:relative; z-index:1; }
+    .approach-header .section-tag { justify-content:center; }
+    .approach-header .section-tag::before { display:none; }
+    .approach-header h2 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2rem,3.5vw,3rem); color:var(--white); letter-spacing:-0.5px; margin-bottom:1rem; }
+    .approach-header p { font-family:'Instrument Serif',serif; font-size:1.05rem; color:rgba(255,255,255,0.45); max-width:500px; margin:0 auto; line-height:1.7; }
+
+    .approach-steps {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1.5px; background: rgba(255,255,255,0.06);
+      position: relative; z-index:1;
+    }
+    .approach-step {
+      background: var(--ink-soft); padding: 2.5rem 2rem;
+      position:relative;
+    }
+    .approach-step::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:var(--accent); transform:scaleX(0); transform-origin:left;
+      transition:transform 0.4s;
+    }
+    .approach-step:hover::after { transform:scaleX(1); }
+    .approach-step:hover { background:#232f47; }
+    .step-num { font-family:'Syne',sans-serif; font-weight:800; font-size:3rem; color:rgba(200,134,26,0.15); line-height:1; margin-bottom:1rem; }
+    .approach-step h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; color:var(--white); margin-bottom:0.5rem; }
+    .approach-step p { font-size:0.83rem; color:rgba(255,255,255,0.4); line-height:1.65; }
+
+    /* CTA */
+    .section-cta { padding:100px 0; background:var(--fog); text-align:center; border-top:1px solid var(--rule); }
+    .section-cta h2 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(1.8rem,3.5vw,3rem); color:var(--ink); margin-bottom:1rem; letter-spacing:-0.5px; }
+    .section-cta p { font-family:'Instrument Serif',serif; font-size:1.05rem; color:var(--muted); max-width:480px; margin:0 auto 2rem; line-height:1.7; }
+    .cta-actions { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+    .btn-amber { background:var(--accent); color:var(--ink); padding:13px 26px; border-radius:4px; text-decoration:none; font-weight:600; font-size:0.9rem; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-amber:hover { background:#e09a25; transform:translateY(-1px); box-shadow:0 6px 20px rgba(200,134,26,0.3); }
+    .btn-outline { background:transparent; color:var(--ink); padding:13px 26px; border-radius:4px; text-decoration:none; font-weight:500; font-size:0.9rem; border:1px solid var(--rule); transition:all 0.2s; }
+    .btn-outline:hover { border-color:var(--ink); }
+
+    /* FOOTER */
+    footer { background:#060b14; border-top:1px solid rgba(255,255,255,0.05); padding:3rem 0 2rem; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:2rem; }
+    .footer-brand-name { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:var(--white); letter-spacing:1px; margin-bottom:0.4rem; }
+    .footer-brand-name span { color:var(--accent); }
+    .footer-brand-tag { font-size:0.78rem; color:var(--muted); max-width:260px; line-height:1.5; }
+    .footer-nav { display:flex; gap:3rem; flex-wrap:wrap; }
+    .footer-col h4 { font-family:'Courier New',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+    .footer-col a { font-size:0.83rem; color:rgba(255,255,255,0.4); text-decoration:none; transition:color 0.2s; }
+    .footer-col a:hover { color:var(--white); }
+    .footer-bottom { margin-top:3rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+    .footer-copy { font-size:0.75rem; color:rgba(255,255,255,0.2); }
+
+    /* REVEAL */
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media(max-width:900px) {
+      .service-block-inner { grid-template-columns:1fr; gap:3rem; }
+      .service-deliverables { grid-template-columns:1fr; }
+      .approach-steps { grid-template-columns:1fr 1fr; }
+      .nav-links { display:none; }
+    }
+    @media(max-width:600px) { .approach-steps { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-hum">HUM</span><span class="nav-brand-ai">AI</span><span class="nav-brand-rest">N ENGINEERING</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/services/" class="active">Services</a></li>
+      <li><a href="/insights/">Insights</a></li>
+      <li><a href="/contact/" class="nav-contact">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="page-hero-inner container">
+    <div class="section-tag">What We Offer</div>
+    <h1>Specialist safety consultancy, built on field experience.</h1>
+    <p>Five disciplines. One methodology — AI-accelerated analysis, engineer-validated output. Every engagement is traceable to published standards and defensible under regulatory scrutiny.</p>
+  </div>
+</section>
+
+<section class="section-services">
+
+  <!-- 01 Process Safety -->
+  <div class="service-block">
+    <div class="container">
+      <div class="service-block-inner reveal">
+        <div class="service-left">
+          <div class="service-num">01 // Process Safety</div>
+          <h2>Process Safety &amp; COMAH Compliance</h2>
+          <p>From major accident hazard identification through to quantified risk assessment and ALARP demonstration — covering the full process safety lifecycle for COMAH Top Tier and non-COMAH sites.</p>
+          <p><strong>Particularly strong in ALARP quantification, LOPA, and COMAH regulatory interface.</strong></p>
+        </div>
+        <div class="service-right">
+          <div class="service-deliverables">
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">ALARP demonstration with quantitative CBA per HSE methodology</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Layer of Protection Analysis (LOPA) studies</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">HAZOP facilitation and consequence definition</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Bow-tie development and barrier management</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">COMAH Safety Report development and review</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">COMAH Regulation 6 notification preparation</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Major accident hazard management frameworks</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Root cause analysis and incident investigation</span></div>
+          </div>
+          <div class="service-standards">
+            <span class="std-tag">HSE ALARP Guidance</span>
+            <span class="std-tag">Smith 2020</span>
+            <span class="std-tag">CCPS LOPA</span>
+            <span class="std-tag">API 770</span>
+            <span class="std-tag">COMAH 2015</span>
+            <span class="std-tag">PD CLC/TR 50126</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 Functional Safety -->
+  <div class="service-block">
+    <div class="container">
+      <div class="service-block-inner reveal">
+        <div class="service-left">
+          <div class="service-num">02 // Functional Safety</div>
+          <h2>Functional Safety — IEC 61511</h2>
+          <p>Full Safety Instrumented System lifecycle support from SIL determination through to verification and validation. TÜV Functional Safety Engineer methodology — rigorous, documented, and audit-ready.</p>
+          <p><strong>Experience across upstream oil &amp; gas and COMAH Top Tier refinery SIS applications.</strong></p>
+        </div>
+        <div class="service-right">
+          <div class="service-deliverables">
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">SIL determination via LOPA or risk graph</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Safety Requirement Specification (SRS) review</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">SIL verification — PFDavg, architectural constraints</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Functional Safety Assessment Stage 1–3</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">FMEDA review and systematic capability assessment</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">SIS design review and logic solver assessment</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Proof test procedure development</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Functional safety management documentation</span></div>
+          </div>
+          <div class="service-standards">
+            <span class="std-tag">IEC 61511:2016</span>
+            <span class="std-tag">IEC 61508</span>
+            <span class="std-tag">TÜV Methodology</span>
+            <span class="std-tag">CCPS SIL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 HSE Compliance -->
+  <div class="service-block">
+    <div class="container">
+      <div class="service-block-inner reveal">
+        <div class="service-left">
+          <div class="service-num">03 // HSE &amp; Regulatory</div>
+          <h2>HSE &amp; Regulatory Compliance</h2>
+          <p>Practical compliance support across UK and international regulatory frameworks — from DSEAR zoning to occupational safety management systems designed to hold up under inspection.</p>
+          <p><strong>Written for the regulatory interface, not just for the filing cabinet.</strong></p>
+        </div>
+        <div class="service-right">
+          <div class="service-deliverables">
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">DSEAR assessment and ATEX zone classification</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">PSSR written scheme of examination support</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Occupational risk assessment and method statements</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Safety management system gap analysis</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">HSE inspection preparation and response</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Management of Change (MOC) safety review</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Permit to work system review</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Emergency response planning support</span></div>
+          </div>
+          <div class="service-standards">
+            <span class="std-tag">DSEAR 2002</span>
+            <span class="std-tag">ATEX 137</span>
+            <span class="std-tag">PSSR 2000</span>
+            <span class="std-tag">RIDDOR</span>
+            <span class="std-tag">ISO 45001</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 Integrity -->
+  <div class="service-block">
+    <div class="container">
+      <div class="service-block-inner reveal">
+        <div class="service-left">
+          <div class="service-num">04 // Integrity Management</div>
+          <h2>Inspection &amp; Integrity Management</h2>
+          <p>Pressure system and pipeline integrity work grounded in API standards — from fitness-for-service assessment to pressure relief system design. Particularly experienced in refinery and upstream hydrocarbon service.</p>
+          <p><strong>Corrosion mechanisms, degradation modes, and consequence — understood from operations, not just theory.</strong></p>
+        </div>
+        <div class="service-right">
+          <div class="service-deliverables">
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Fitness-for-service assessment per API 579</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">t-min and t-alarm derivation for piping and vessels</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Corrosion rate assessment and remaining life</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">PSV sizing per API 520/521/526</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Overpressure scenario identification and relief load</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">HTHA assessment per API 941 (Nelson Curves)</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Risk-based inspection (RBI) framework support</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Pipeline integrity management programmes</span></div>
+          </div>
+          <div class="service-standards">
+            <span class="std-tag">API 579</span>
+            <span class="std-tag">API 520/521</span>
+            <span class="std-tag">API 526</span>
+            <span class="std-tag">API 941</span>
+            <span class="std-tag">API 570</span>
+            <span class="std-tag">ASME B31.3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 Bespoke Tools -->
+  <div class="service-block">
+    <div class="container">
+      <div class="service-block-inner reveal">
+        <div class="service-left">
+          <div class="service-num">05 // AI Engineering Tools</div>
+          <h2>Bespoke AI-Powered Engineering Tools</h2>
+          <p>Custom calculation tools built for your specific process, regulatory context, or site. AI-generated, engineer-validated, and formatted for the output you actually need — whether that's a report, a regulatory submission, or an internal decision tool.</p>
+          <p><strong>Tell us what calculation you need. We'll build it.</strong></p>
+        </div>
+        <div class="service-right">
+          <div class="service-deliverables">
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Site-specific ALARP/CBA calculation tools</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Custom COMAH inventory classification trackers</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Stored energy and explosion exclusion zone calculators</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Process-specific LOPA worksheets</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Relief system sizing tools for specific fluid services</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Corrosion allowance and remaining life calculators</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Risk matrix and bow-tie visualisation tools</span></div>
+            <div class="deliverable"><span class="deliverable-tick">▸</span><span class="deliverable-text">Regulatory report generation templates</span></div>
+          </div>
+          <div class="service-standards">
+            <span class="std-tag">Web-based</span>
+            <span class="std-tag">No installation</span>
+            <span class="std-tag">Standards-referenced</span>
+            <span class="std-tag">Export-ready output</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- APPROACH -->
+<section class="section-approach">
+  <div class="container">
+    <div class="approach-header reveal">
+      <div class="section-tag">Our Approach</div>
+      <h2>How an engagement works.</h2>
+      <p>Every project follows the same disciplined process — fast to mobilise, rigorous in execution, clear in output.</p>
+    </div>
+    <div class="approach-steps reveal">
+      <div class="approach-step">
+        <div class="step-num">01</div>
+        <h3>Define the problem</h3>
+        <p>We start with your actual engineering challenge — not a generic scope. What decision needs to be made? What does the output need to demonstrate?</p>
+      </div>
+      <div class="approach-step">
+        <div class="step-num">02</div>
+        <h3>Identify the standard</h3>
+        <p>Every engagement maps to published methodology. We identify the applicable standard, its requirements, and any gaps in existing documentation before starting work.</p>
+      </div>
+      <div class="approach-step">
+        <div class="step-num">03</div>
+        <h3>Build and validate</h3>
+        <p>AI accelerates the analysis. Engineer judgement validates it. Assumptions are documented. Limitations are stated. Nothing leaves without a qualified review.</p>
+      </div>
+      <div class="approach-step">
+        <div class="step-num">04</div>
+        <h3>Deliver usable output</h3>
+        <p>Reports are written for the audience that matters — whether that's your engineering team, your board, or HSE. Formatted for the end use from the start.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-cta">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag" style="justify-content:center;"><span style="display:none"></span>Start a Project</div>
+      <h2>Tell us what you're working on.</h2>
+      <p>Whether it's a defined scope or an early-stage challenge, we're happy to discuss how HUMAIN Engineering can help.</p>
+      <div class="cta-actions">
+        <a href="/contact/" class="btn-amber">Get in Touch →</a>
+        <a href="/insights/" class="btn-outline">Read Our Insights</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
+        <div class="footer-brand-tag">AI-powered process safety tools and consultancy. Built on real incident experience.</div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services/">Process Safety</a></li>
+            <li><a href="/services/">Functional Safety</a></li>
+            <li><a href="/services/">HSE Compliance</a></li>
+            <li><a href="/services/">Integrity Management</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
