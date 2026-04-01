@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pneumatic Pressure & Leak Test — Stored Energy & Safe Distance Calculator | HUMAIN Engineering</title>
+<style>
+/* ═══ ALARP CBA TOOL COLOUR SCHEME ═══ */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:#f9f9f9;
+  color:#222;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  min-height:100vh;
+}
+
+/* ═══ HEADER ═══ */
+header{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 28px;
+  border-bottom:2px solid #004080;
+  background:#fff;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 6px rgba(0,64,128,0.08);
+}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-hex{
+  width:38px;height:38px;
+  background:#004080;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.logo-hex span{font-size:9px;color:#fff;font-weight:bold;letter-spacing:-0.5px;}
+.logo-text{display:flex;flex-direction:column;}
+.logo-text .brand{font-size:18px;font-weight:bold;color:#004080;letter-spacing:0.06em;line-height:1;}
+.logo-text .brand em{color:#0066cc;font-style:normal;}
+.logo-text .sub{font-size:10px;color:#888;letter-spacing:0.06em;margin-top:2px;}
+.header-title{border-left:2px solid #004080;padding-left:16px;margin-left:4px;}
+.header-title h1{font-size:16px;font-weight:bold;color:#004080;}
+.header-title p{font-size:11px;color:#888;margin-top:2px;}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.code-badge{
+  font-size:10px;letter-spacing:0.06em;
+  padding:4px 10px;
+  background:#e8f0fb;border:1px solid #c5d5e8;
+  color:#004080;font-weight:bold;
+}
+.print-btn{
+  font-size:12px;font-weight:bold;
+  padding:7px 16px;
+  background:#004080;border:none;
+  color:#fff;cursor:pointer;
+  transition:background 0.15s;
+}
+.print-btn:hover{background:#0066cc;}
+
+/* ═══ MAIN GRID ═══ */
+.main{
+  display:grid;
+  grid-template-columns:400px 1fr;
+  min-height:calc(100vh - 66px);
+}
+
+/* ═══ LEFT PANEL ═══ */
+.left{
+  border-right:1px solid #ddd;
+  padding:20px 18px;
+  overflow-y:auto;
+  background:#fff;
+}
+.section{margin-bottom:22px;}
+.sec-head{
+  font-size:11px;font-weight:bold;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:#004080;
+  display:flex;align-items:center;gap:8px;
+  padding-bottom:8px;
+  border-bottom:2px solid #004080;
+  margin-bottom:12px;
+}
+.sec-head::before{
+  content:'';display:block;
+  width:3px;height:14px;background:#004080;flex-shrink:0;
+}
+
+.field{margin-bottom:12px;}
+.field label{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:4px;
+  font-size:12px;font-weight:bold;color:#444;
+}
+.field label .sym{font-size:11px;color:#004080;font-style:italic;}
+.field label .unit-tag{
+  font-size:10px;
+  background:#f0f4f9;color:#444;
+  padding:1px 7px;border:1px solid #c5d5e8;
+  font-weight:normal;
+}
+input[type=number],select,input[type=text]{
+  width:100%;
+  background:#fff;
+  border:1px solid #ccc;
+  color:#222;
+  font-family:Arial,sans-serif;font-size:14px;
+  padding:7px 10px;
+  outline:none;
+  transition:border-color 0.15s;
+  appearance:none;-moz-appearance:textfield;
+  border-radius:0;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+input[type=number]:focus,select:focus,input[type=text]:focus{
+  border-color:#004080;
+  box-shadow:0 0 0 2px rgba(0,64,128,0.1);
+}
+select{
+  cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;
+}
+.field-hint{font-size:11px;color:#888;margin-top:3px;line-height:1.4;}
+
+/* radio buttons */
+.radio-btn{
+  display:flex;align-items:center;gap:6px;
+  background:#f0f4f9;border:1px solid #c5d5e8;
+  padding:7px 12px;cursor:pointer;
+  font-size:12px;font-weight:bold;color:#444;
+  transition:all 0.15s;user-select:none;
+}
+.radio-btn.active{background:#004080;border-color:#004080;color:#fff;}
+.radio-btn:hover:not(.active){background:#dce6f0;border-color:#004080;color:#004080;}
+.radio-row{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* pipe helper */
+.pipe-helper{
+  background:#f0f4f9;border:1px solid #c5d5e8;
+  padding:12px;margin-top:8px;
+}
+.pipe-helper .ph-title{
+  font-size:11px;font-weight:bold;color:#004080;
+  letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.ph-grid .field{margin-bottom:0;}
+.ph-result{
+  margin-top:10px;padding-top:10px;border-top:1px solid #c5d5e8;
+  font-size:11px;color:#004080;font-weight:bold;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.use-vol-btn{
+  font-size:11px;font-weight:bold;
+  background:#004080;border:none;
+  color:#fff;padding:4px 12px;cursor:pointer;
+  transition:background 0.15s;
+}
+.use-vol-btn:hover{background:#0066cc;}
+
+/* calc button */
+.calc-btn{
+  width:100%;margin-top:10px;
+  background:#004080;border:none;
+  color:#fff;
+  font-family:Arial,sans-serif;font-size:15px;font-weight:bold;
+  padding:13px;cursor:pointer;
+  transition:background 0.15s;
+}
+.calc-btn:hover{background:#0066cc;}
+.calc-btn:active{background:#003060;}
+
+.reset-btn{
+  width:100%;margin-top:6px;
+  background:#fff;border:1px solid #ccc;
+  color:#444;
+  font-family:Arial,sans-serif;font-size:12px;font-weight:bold;
+  padding:8px;cursor:pointer;
+  transition:all 0.15s;
+}
+.reset-btn:hover{border-color:#004080;color:#004080;}
+
+/* ═══ RIGHT PANEL ═══ */
+.right{padding:24px;overflow-y:auto;background:#f9f9f9;}
+
+/* media warning banners */
+.media-banner{
+  display:none;
+  padding:12px 16px;
+  border-left:4px solid;
+  margin-bottom:16px;
+  font-size:13px;line-height:1.6;
+}
+.media-banner.n2{border-color:#004080;background:#e8f0fb;color:#004080;}
+.media-banner.air{border-color:#b26a00;background:#fff8e1;color:#b26a00;}
+.media-banner .ban-title{font-size:13px;font-weight:bold;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;}
+
+/* mdmt banner */
+.mdmt-banner{
+  padding:12px 16px;
+  border-left:4px solid #b26a00;
+  background:#fff8e1;
+  margin-bottom:16px;
+  font-size:12px;line-height:1.6;color:#7a4a00;
+}
+.mdmt-banner .ban-title{font-size:13px;font-weight:bold;margin-bottom:6px;text-transform:uppercase;color:#b26a00;}
+
+/* results idle */
+.results-idle{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:300px;
+  border:2px dashed #ddd;
+  background:#fff;
+  color:#888;gap:12px;
+}
+.results-idle .idle-icon{font-size:36px;opacity:0.3;}
+.results-idle p{font-size:12px;letter-spacing:0.04em;}
+
+/* results grid */
+.results-grid{display:none;gap:16px;}
+
+/* result cards — step style matches ALARP CBA */
+.r-card{
+  background:#fff;border:1px solid #dce6f0;
+  padding:18px 20px;
+  border-top:3px solid #004080;
+}
+.r-card-title{
+  font-size:12px;font-weight:bold;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:#004080;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:1px solid #dce6f0;
+  display:flex;align-items:center;gap:8px;
+}
+.r-card-title .step{
+  font-size:11px;font-weight:bold;
+  background:#004080;color:#fff;
+  padding:2px 8px;border-radius:50px;
+}
+
+.eq-display{
+  background:#f0f4f9;border:1px solid #c5d5e8;
+  padding:10px 14px;margin-bottom:14px;
+  font-size:12px;color:#444;
+  line-height:1.6;font-family:Arial,sans-serif;
+}
+.eq-display .eq-label{color:#004080;margin-bottom:4px;font-size:11px;font-weight:bold;}
+
+.val-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:6px 0;border-bottom:1px solid #dce6f0;
+}
+.val-row:last-child{border-bottom:none;}
+.val-label{font-size:12px;color:#444;}
+.val-num{
+  font-size:16px;font-weight:bold;color:#004080;
+  display:flex;align-items:baseline;gap:5px;
+}
+.val-num .u{font-size:11px;color:#888;font-weight:normal;}
+
+/* alert boxes — ALARP colours */
+.alert{
+  padding:10px 14px;margin-top:10px;
+  display:flex;gap:10px;align-items:flex-start;
+  font-size:12px;line-height:1.5;
+}
+.alert .al-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.alert.red{background:#fdecea;border:1px solid #f5c6c6;color:#c62828;}
+.alert.yellow{background:#fff8e1;border:1px solid #ffe082;color:#b26a00;}
+.alert.blue{background:#e8f0fb;border:1px solid #c5d5e8;color:#004080;}
+.alert.green{background:#e8f5e9;border:1px solid #c8e6c9;color:#2e7d32;}
+.alert-title{font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px;}
+
+/* distance results */
+.dist-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.dist-card{
+  background:#f0f4f9;border:1px solid #c5d5e8;
+  padding:14px;text-align:center;
+}
+.dist-card .dc-label{
+  font-size:10px;font-weight:bold;color:#888;
+  letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;
+}
+.dist-card .dc-val{
+  font-size:28px;font-weight:bold;
+  color:#004080;line-height:1;
+}
+.dist-card .dc-unit{font-size:11px;color:#888;margin-top:4px;}
+.dist-card.governing{border-color:#004080;background:#dce6f0;}
+.dist-card.governing .dc-val{color:#004080;}
+.dist-card.governing .dc-label{color:#004080;}
+
+/* governing zone hero */
+.gov-zone{
+  background:#132040;border:2px solid #004080;
+  padding:20px;text-align:center;margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.gov-zone::before{
+  content:'GOVERNING EXCLUSION ZONE';
+  position:absolute;top:0;left:0;right:0;
+  font-size:9px;letter-spacing:0.15em;font-weight:bold;
+  background:#004080;color:#fff;
+  padding:4px;text-align:center;
+}
+.gov-zone .gz-val{
+  font-size:64px;font-weight:bold;
+  color:#fff;line-height:1;margin-top:20px;
+}
+.gov-zone .gz-unit{font-size:20px;color:#aac4e0;}
+.gov-zone .gz-basis{font-size:11px;color:#aac4e0;margin-top:8px;letter-spacing:0.04em;}
+
+/* rscaled table */
+.rscale-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;}
+.rscale-table th{
+  background:#dce6f0;
+  font-size:11px;font-weight:bold;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:#004080;padding:7px 10px;text-align:left;
+  border:1px solid #c5d5e8;
+}
+.rscale-table td{padding:7px 10px;border:1px solid #dce6f0;color:#222;}
+.rscale-table tr.active-row td{background:#dce6f0;color:#004080;font-weight:bold;}
+
+/* scope notice */
+.scope-notice{
+  margin-top:20px;
+  background:#fff;border:1px solid #ddd;
+  border-left:4px solid #004080;
+  padding:14px 16px;
+  font-size:11px;color:#444;line-height:1.7;
+}
+.scope-notice .sn-title{
+  font-size:12px;font-weight:bold;
+  letter-spacing:0.06em;text-transform:uppercase;color:#004080;
+  margin-bottom:8px;
+}
+
+/* print */
+@media print{
+  header,.left,.results-idle,.print-btn,.calc-btn,.reset-btn,.pipe-helper{display:none!important;}
+  body{background:#fff;color:#000;}
+  .main{display:block;}
+  .right{padding:20px;background:#fff;}
+  .r-card{border:1px solid #ccc;page-break-inside:avoid;margin-bottom:16px;}
+  .gov-zone{background:#fff;border:2px solid #000;}
+  .gov-zone .gz-val{color:#000;}
+  .gov-zone .gz-unit,.gov-zone .gz-basis{color:#444;}
+  .print-header{display:block!important;}
+}
+.print-header{
+  display:none;margin-bottom:20px;
+  padding-bottom:12px;border-bottom:2px solid #004080;
+}
+.print-header h2{font-size:18px;font-weight:bold;color:#004080;}
+.print-header p{font-size:11px;color:#666;margin-top:4px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-hex"><span>HUM</span></div>
+    <div class="logo-text">
+      <div class="brand">HUM<em>AI</em>N</div>
+      <div class="sub">Engineering</div>
+    </div>
+  </div>
+  <div class="header-title">
+    <h1>Pneumatic Pressure &amp; Leak Test — Stored Energy &amp; Safe Distance Calculator</h1>
+    <p>ASME PCC-2-2022 · Article 501 · Mandatory Appendix 501-II &amp; 501-III</p>
+  </div>
+  <div class="header-right">
+    <div class="code-badge">Rev 1.0 · 2025</div>
+    <button class="print-btn" onclick="window.print()">⎙ Print Summary</button>
+  </div>
+</header>
+
+<div class="main">
+
+<!-- ══════════════════ LEFT PANEL ══════════════════ -->
+<div class="left">
+
+  <!-- SYSTEM TYPE -->
+  <div class="section">
+    <div class="sec-head">System Configuration</div>
+
+    <div class="field">
+      <label>System Type</label>
+      <div class="radio-row" id="sysTypeRow">
+        <div class="radio-btn active" data-val="vessel" onclick="selectSysType(this)">Pressure Vessel</div>
+        <div class="radio-btn" data-val="piping" onclick="selectSysType(this)">Piping System</div>
+        <div class="radio-btn" data-val="both" onclick="selectSysType(this)">Both in Series</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Use Case</label>
+      <div class="radio-row" id="useCaseRow">
+        <div class="radio-btn active" data-val="test" onclick="selectUseCase(this)">Pressure Test</div>
+        <div class="radio-btn" data-val="purge" onclick="selectUseCase(this)">Purge / Inert</div>
+        <div class="radio-btn" data-val="general" onclick="selectUseCase(this)">General</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Material Group</label>
+      <select id="material" onchange="onMaterialChange()">
+        <option value="cs">Carbon Steel (CS)</option>
+        <option value="las">Low Alloy Steel</option>
+        <option value="ass">Austenitic Stainless Steel (304/316/321)</option>
+        <option value="fss">Ferritic / Martensitic SS</option>
+        <option value="ci">Cast Iron</option>
+        <option value="di">Ductile Iron</option>
+      </select>
+    </div>
+
+    <div id="castIronAlert" class="alert red" style="display:none">
+      <div class="al-icon">⛔</div>
+      <div>
+        <div class="alert-title">Hard Stop — Cast Iron</div>
+        PCC-2 §501-6.2(d): Components fabricated from cast iron shall not be pneumatically pressure tested unless: test pressure ≤ MAWP, AE testing is performed, and the stepped procedure of §501-6.2.1 is followed. Seek competent engineering review before proceeding.
+      </div>
+    </div>
+
+    <div id="ductileIronAlert" class="alert yellow" style="display:none">
+      <div class="al-icon">⚠️</div>
+      <div>
+        <div class="alert-title">Caution — Ductile Iron</div>
+        PCC-2 §501-6.2(d): Pneumatic testing of ductile iron requires: test pressure ≤ MAWP, Acoustic Emission (AE) monitoring, and the stepped test procedure of §501-6.2.1. Engineering approval required.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TEST MEDIUM -->
+  <div class="section">
+    <div class="sec-head">Test Medium</div>
+    <div class="field">
+      <label>Test Fluid</label>
+      <select id="medium" onchange="onMediumChange()">
+        <option value="n2">Nitrogen (N₂) — κ = 1.4</option>
+        <option value="air">Dry Air — κ = 1.4</option>
+        <option value="gas">Process Gas (user-defined κ)</option>
+        <option value="other">Other Gas (user-defined κ)</option>
+      </select>
+    </div>
+    <div class="field" id="kappaField" style="display:none">
+      <label>
+        Ratio of Specific Heats
+        <span class="sym">κ</span>
+      </label>
+      <input type="number" id="kappa" value="1.4" min="1.0" max="1.8" step="0.01">
+      <div class="field-hint">κ = 1.4 for diatomic gases (N₂, Air, O₂). Use fluid data sheet for process gases.</div>
+    </div>
+  </div>
+
+  <!-- PRESSURES -->
+  <div class="section">
+    <div class="sec-head">Pressures</div>
+    <div class="field">
+      <label>
+        Design / MAWP (gauge)
+        <span class="unit-tag">barg</span>
+      </label>
+      <input type="number" id="pDesign" value="" min="0" step="0.1" placeholder="e.g. 10.0">
+      <div class="field-hint">Used for test pressure validation only.</div>
+    </div>
+    <div class="field">
+      <label>
+        Test Pressure (gauge)
+        <span class="sym">P<sub>at</sub></span>
+        <span class="unit-tag">barg</span>
+      </label>
+      <input type="number" id="pTest" value="" min="0" step="0.1" placeholder="e.g. 11.0" oninput="checkTestPressure()">
+    </div>
+    <div id="pTestAlert" style="display:none"></div>
+    <div class="field">
+      <label>
+        Atmospheric Pressure
+        <span class="sym">P<sub>a</sub></span>
+        <span class="unit-tag">kPa abs</span>
+      </label>
+      <input type="number" id="pAtm" value="101" min="90" max="110" step="0.1">
+    </div>
+    <div class="field">
+      <label>PRV Set Pressure (gauge) <span class="unit-tag">barg</span></label>
+      <input type="number" id="pPRV" value="" min="0" step="0.1" placeholder="Optional — for PRV check">
+      <div class="field-hint">PCC-2 §501-6.2(i): PRV set ≤ max(P_test + 0.7 bar, 1.1 × P_test)</div>
+    </div>
+    <div id="prvAlert" style="display:none"></div>
+  </div>
+
+  <!-- VOLUME -->
+  <div class="section">
+    <div class="sec-head">Volume</div>
+
+    <div id="vesselVolSection">
+      <div class="field">
+        <label>
+          Total System Volume
+          <span class="sym">V</span>
+          <span class="unit-tag">m³</span>
+        </label>
+        <input type="number" id="volume" value="" min="0" step="0.001" placeholder="e.g. 2.5">
+        <div class="field-hint" id="volHint">For vessels: total internal volume. For piping: see pipe helper below.</div>
+      </div>
+    </div>
+
+    <!-- Pipe volume helper -->
+    <div class="pipe-helper" id="pipeHelper" style="display:none">
+      <div class="ph-title">▸ Pipe Volume Helper — 8 Diameter Rule (PCC-2 §501-II)</div>
+      <div class="ph-grid">
+        <div class="field">
+          <label style="font-size:11px;">OD <span class="unit-tag" style="font-size:9px;">mm</span></label>
+          <input type="number" id="pipeOD" value="" min="10" step="1" placeholder="e.g. 219" oninput="calcPipeVol()">
+        </div>
+        <div class="field">
+          <label style="font-size:11px;">WT <span class="unit-tag" style="font-size:9px;">mm</span></label>
+          <input type="number" id="pipeWT" value="" min="1" step="0.1" placeholder="e.g. 8.2" oninput="calcPipeVol()">
+        </div>
+        <div class="field">
+          <label style="font-size:11px;">Length <span class="unit-tag" style="font-size:9px;">m</span></label>
+          <input type="number" id="pipeLen" value="" min="0" step="0.1" placeholder="auto" oninput="calcPipeVol()">
+        </div>
+      </div>
+      <div class="ph-result" id="pipeVolResult">
+        <span style="color:var(--text-dim);font-size:10px;">Enter OD and WT to calculate</span>
+      </div>
+    </div>
+
+    <div class="alert blue" id="pipeVolAlert" style="display:none;margin-top:10px;">
+      <div class="al-icon">ℹ️</div>
+      <div>
+        <div class="alert-title">Piping Volume Basis</div>
+        PCC-2 §501-II uses 8 pipe diameters as the default failure volume. Alternative bases: TNT Model = 11 m of pipe; Major Refinery Practice = 18 m. If brittle fracture or unrestrained pipe is credible, consider using full connected volume. Confirm with competent engineer.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FRAGMENT -->
+  <div class="section">
+    <div class="sec-head">Fragment Consideration</div>
+    <div class="field">
+      <label>Are fragments / projectiles a credible risk?</label>
+      <div class="radio-row" id="fragRow">
+        <div class="radio-btn active" data-val="yes" onclick="selectFrag(this)">Yes — include Table lookup</div>
+        <div class="radio-btn" data-val="no" onclick="selectFrag(this)">No — blast only</div>
+      </div>
+    </div>
+    <div class="alert yellow" id="pipeMissileAlert" style="display:none;margin-top:8px;">
+      <div class="al-icon">⚠️</div>
+      <div>
+        <div class="alert-title">Pipe Missile Risk</div>
+        PCC-2 §501-IV: Unrestrained piping can become a projectile on failure. Confirm pipe is adequately restrained/supported. If not, full pipe section ejection distance governs over fragment table.
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">▶ Calculate Risk</button>
+  <button class="reset-btn" onclick="resetAll()">↺ Reset All Fields</button>
+
+</div><!-- /left -->
+
+<!-- ══════════════════ RIGHT PANEL ══════════════════ -->
+<div class="right">
+
+  <!-- Print header (hidden on screen) -->
+  <div class="print-header">
+    <h2>HUMAIN Engineering — Pneumatic Pressure &amp; Leak Test — Stored Energy &amp; Safe Distance Calculator</h2>
+    <p>ASME PCC-2-2022 · Article 501 · Mandatory Appendix 501-II &amp; 501-III | Generated: <span id="printDate"></span></p>
+  </div>
+
+  <!-- MDMT Banner — always shown -->
+  <div class="mdmt-banner">
+    <div class="ban-title">⚠️ MDMT Verification Required — Competent Engineer Sign-Off</div>
+    The Minimum Design Metal Temperature (MDMT) of all pressure-containing components must be verified against the anticipated metal temperature on the day of test before proceeding. Metal temperature must remain above MDMT throughout the duration of the test. For carbon steel and low alloy steel, wall thickness governs MDMT per ASME VIII Div.1 Fig. UCS-66. This assessment must be reviewed and confirmed in writing by a competent engineer prior to test execution. <strong>This calculator does not perform MDMT verification.</strong>
+  </div>
+
+  <!-- Medium-specific banners -->
+  <div class="media-banner n2" id="n2Banner">
+    <div class="ban-title">☁️ Asphyxiation Hazard — Nitrogen (N₂)</div>
+    N₂ is colourless, odourless, and gives no physiological warning before incapacitation. Oxygen concentration in the test area must be continuously monitored (minimum 19.5% v/v). Confined space entry procedures, permit-to-work, and atmospheric testing must be in place before personnel access. Ensure adequate forced ventilation. This risk is not quantified by this calculator.
+  </div>
+
+  <div class="media-banner air" id="airBanner">
+    <div class="ban-title">🔥 Flammable Atmosphere Risk — Dry Air</div>
+    Do not introduce air into any system that cannot be verified as free of hydrocarbons. Introduction of air into a hydrocarbon-contaminated system may create an explosive mixture. PCC-2 §501-6.2(b): Nitrogen is the preferred test medium. Gas-free certificate required prior to testing with air. This risk is not quantified by this calculator.
+  </div>
+
+  <!-- Results area -->
+  <div class="results-idle" id="resultsIdle">
+    <div class="idle-icon">⬡</div>
+    <p>Configure inputs and press Calculate Risk</p>
+  </div>
+
+  <div class="results-grid" id="resultsGrid">
+
+    <!-- STEP 1: Stored Energy -->
+    <div class="r-card">
+      <div class="r-card-title"><span class="step">STEP 1</span> Stored Energy Calculation</div>
+      <div class="eq-display" id="eqDisplay">
+        <div class="eq-label">Equation Applied:</div>
+        <span id="eqText">—</span>
+      </div>
+      <div class="val-row">
+        <span class="val-label">Absolute Test Pressure (P<sub>at</sub>)</span>
+        <span class="val-num" id="rPatVal">— <span class="u">Pa</span></span>
+      </div>
+      <div class="val-row">
+        <span class="val-label">Atmospheric Pressure (P<sub>a</sub>)</span>
+        <span class="val-num" id="rPaVal">— <span class="u">Pa</span></span>
+      </div>
+      <div class="val-row">
+        <span class="val-label">Volume (V)</span>
+        <span class="val-num" id="rVolVal">— <span class="u">m³</span></span>
+      </div>
+      <div class="val-row">
+        <span class="val-label">κ (ratio of specific heats)</span>
+        <span class="val-num" id="rKappaVal">—</span>
+      </div>
+      <div class="val-row" style="border-top:1px solid var(--accent);margin-top:4px;padding-top:8px;">
+        <span class="val-label" style="color:var(--text-bright);font-weight:600;">Stored Energy (E)</span>
+        <span class="val-num" style="font-size:20px;" id="rEnergyVal">— <span class="u">J</span></span>
+      </div>
+      <div class="val-row">
+        <span class="val-label">Stored Energy</span>
+        <span class="val-num" id="rEnergyMJVal">— <span class="u">MJ</span></span>
+      </div>
+      <div id="energyLimitAlert"></div>
+    </div>
+
+    <!-- STEP 2: TNT Equivalent -->
+    <div class="r-card">
+      <div class="r-card-title"><span class="step">STEP 2</span> TNT Equivalent</div>
+      <div class="eq-display">
+        <div class="eq-label">Eq. II-3 (PCC-2-2022 Mandatory Appendix 501-II)</div>
+        TNT = E / 4,266,920 &nbsp;(kg)
+      </div>
+      <div class="val-row">
+        <span class="val-label">Stored Energy (E)</span>
+        <span class="val-num" id="rE2Val">— <span class="u">J</span></span>
+      </div>
+      <div class="val-row" style="border-top:1px solid var(--accent);margin-top:4px;padding-top:8px;">
+        <span class="val-label" style="color:var(--text-bright);font-weight:600;">TNT Equivalent</span>
+        <span class="val-num" style="font-size:20px;" id="rTNTVal">— <span class="u">kg</span></span>
+      </div>
+    </div>
+
+    <!-- STEP 3: Safe Distances -->
+    <div class="r-card">
+      <div class="r-card-title"><span class="step">STEP 3</span> Safe Distance Calculations</div>
+
+      <!-- Governing zone hero -->
+      <div class="gov-zone">
+        <div class="gz-val" id="govZoneVal">—</div>
+        <div class="gz-unit">metres</div>
+        <div class="gz-basis" id="govZoneBasis">—</div>
+      </div>
+
+      <!-- Three distances -->
+      <div class="dist-grid">
+        <div class="dist-card" id="dc_min">
+          <div class="dc-label">Minimum (Code)</div>
+          <div class="dc-val" id="dv_min">—</div>
+          <div class="dc-unit">m</div>
+        </div>
+        <div class="dist-card" id="dc_blast">
+          <div class="dc-label">Blast Wave (Eq. III-1)</div>
+          <div class="dc-val" id="dv_blast">—</div>
+          <div class="dc-unit">m</div>
+        </div>
+        <div class="dist-card" id="dc_frag">
+          <div class="dc-label">Fragment Throw (Table)</div>
+          <div class="dc-val" id="dv_frag">—</div>
+          <div class="dc-unit">m</div>
+        </div>
+      </div>
+
+      <!-- Blast distance workings -->
+      <div class="eq-display">
+        <div class="eq-label">Eq. III-1 (PCC-2-2022 §501-III-1) — Blast Wave Distance</div>
+        R = R<sub>scaled</sub> × (2 × TNT)<sup>1/3</sup> &nbsp;|&nbsp; R<sub>scaled</sub> = 20 m/kg<sup>1/3</sup> (minimum)
+      </div>
+
+      <!-- Rscaled consequence table -->
+      <div class="r-card-title" style="font-size:10px;border:none;padding-bottom:4px;margin-bottom:0;">
+        Table 501-III-1-1 — Alternative R<sub>scaled</sub> Values &amp; Corresponding Distances
+      </div>
+      <table class="rscale-table" id="rscaleTable">
+        <thead>
+          <tr>
+            <th>R<sub>scaled</sub> (m/kg<sup>1/3</sup>)</th>
+            <th>Biological Effect</th>
+            <th>Structural Failure</th>
+            <th>Distance R (m)</th>
+          </tr>
+        </thead>
+        <tbody id="rscaleBody"></tbody>
+      </table>
+    </div>
+
+    <!-- STEP 4: Fragment Table Result -->
+    <div class="r-card" id="fragCard">
+      <div class="r-card-title"><span class="step">STEP 4</span> Fragment Throw Distance</div>
+      <div class="eq-display">
+        <div class="eq-label">Table 501-III-2-1 (PCC-2-2022) — Minimum Distances for Fragment Throw</div>
+        Based on American Table of Distances (IME SLP-2-2011). Unbarricaded, inhabited buildings. Conservative for open industrial sites.
+      </div>
+      <div class="val-row">
+        <span class="val-label">TNT Equivalent</span>
+        <span class="val-num" id="fTNTVal">— <span class="u">kg</span></span>
+      </div>
+      <div class="val-row" style="border-top:1px solid var(--accent);margin-top:4px;padding-top:8px;">
+        <span class="val-label" style="color:var(--text-bright);font-weight:600;">Min. Fragment Throw Distance</span>
+        <span class="val-num" style="font-size:20px;" id="fDistVal">— <span class="u">m</span></span>
+      </div>
+      <div class="alert blue" style="margin-top:10px;">
+        <div class="al-icon">ℹ️</div>
+        <div>Fragment distances are for random vessel/piping fragments. For unrestrained pipe sections or blind flange ejection, projectile trajectory analysis should be performed separately by a competent engineer.</div>
+      </div>
+    </div>
+
+    <!-- Scope Limitations -->
+    <div class="scope-notice">
+      <div class="sn-title">⚠ Scope &amp; Limitations — Read Before Use</div>
+      <strong>1. Conservative upper bound:</strong> This calculator assumes instantaneous total failure releasing 100% of stored energy. Actual energy release depends on failure mode, wall thickness, material ductility, restraint conditions, and system geometry. Results are a conservative screening estimate only.<br><br>
+      <strong>2. System design not considered:</strong> Vessel geometry, nozzle orientation, pipe support/restraint, connected volume contribution, and pressure regulation are not accounted for in the stored energy equations.<br><br>
+      <strong>3. TNT equivalence model:</strong> PCC-2 Eq. II-3 applies a single conversion factor (4,266,920 J/kg). No yield factor is applied — this is the standard's conservative approach for screening. For detailed consequence modelling use DNV PHAST, SAFETI or equivalent QRA tools.<br><br>
+      <strong>4. Fragment table basis:</strong> Table 501-III-2-1 is based on the American Table of Distances (IME SLP-2-2011) for unbarricaded inhabited buildings. Results are conservative for open industrial sites with no personnel in direct line of sight.<br><br>
+      <strong>5. Not a substitute for QRA:</strong> This tool is a code-based screening calculator. Where stored energy is significant, a detailed Quantitative Risk Assessment (QRA) and formal Hazard Analysis per PCC-2 §501-6.2(g) and Mandatory Appendix 501-IV must be performed by a competent process safety engineer.<br><br>
+      <strong>6. Purging / inerting use:</strong> When used for purging risk assessment, this tool applies engineering judgement beyond the formal scope of PCC-2 Article 501 (which is written for pressure testing). Results should be treated as indicative only and reviewed by a competent engineer.<br><br>
+      <strong>Reference:</strong> ASME PCC-2-2022, Article 501, Mandatory Appendix 501-II &amp; 501-III. ASME B31.3-2024, §345.5.
+    </div>
+
+  </div><!-- /results-grid -->
+
+</div><!-- /right -->
+</div><!-- /main -->
+
+<script>
+// ── State ──
+let sysType = 'vessel';
+let useCase = 'test';
+let fragEnabled = true;
+let pipeVolCalc = null;
+
+// ── Fragment Table (PCC-2-2022 Table 501-III-2-1) ──
+const FRAG_TABLE = [
+  [0,3,50],[3,5,60],[5,10,70],[10,15,80],[15,20,90],
+  [20,25,95],[25,35,105],[35,50,120],[50,65,130],[65,80,140],
+  [80,100,150],[100,120,160],[120,150,170],[150,200,190],[200,250,205],
+  [250,300,215],[300,350,225],[350,400,240],[400,450,245],[450,500,255],
+  [500,600,270],[600,700,285],[700,800,300],[800,900,310],[900,1100,330],
+  [1100,1300,350],[1300,1500,365],[1500,1900,395],[1900,2300,420],
+  [2300,2800,450],[2800,3300,475],[3300,3800,500],[3800,4400,525],
+  [4400,5000,530],[5000,5500,535],[5500,6500,545],[6500,7500,570],
+  [7500,8500,590],[8500,10000,605]
+];
+
+// ── R_scaled table rows ──
+const RSCALE_ROWS = [
+  {rs:20, bio:'—', struct:'Glass windows'},
+  {rs:12, bio:'Eardrum rupture', struct:'Concrete block panels'},
+  {rs:6,  bio:'Lung damage', struct:'Brick walls'},
+  {rs:2,  bio:'Fatal', struct:'—'},
+];
+
+// ── Helpers ──
+function fmt(n,dp=2){return n==null?'—':n.toLocaleString('en-GB',{minimumFractionDigits:dp,maximumFractionDigits:dp});}
+function fmtInt(n){return n==null?'—':Math.round(n).toLocaleString('en-GB');}
+
+function selectSysType(el){
+  document.querySelectorAll('#sysTypeRow .radio-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  sysType = el.dataset.val;
+  updateVolumeUI();
+}
+function selectUseCase(el){
+  document.querySelectorAll('#useCaseRow .radio-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  useCase = el.dataset.val;
+}
+function selectFrag(el){
+  document.querySelectorAll('#fragRow .radio-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  fragEnabled = el.dataset.val === 'yes';
+  document.getElementById('pipeMissileAlert').style.display =
+    fragEnabled && (sysType==='piping'||sysType==='both') ? 'flex' : 'none';
+}
+
+function updateVolumeUI(){
+  const isPiping = sysType==='piping'||sysType==='both';
+  document.getElementById('pipeHelper').style.display = isPiping ? 'block' : 'none';
+  document.getElementById('pipeVolAlert').style.display = isPiping ? 'flex' : 'none';
+  document.getElementById('volHint').textContent = isPiping
+    ? 'For piping: use pipe helper (8D rule) or enter volume directly.'
+    : 'Total internal volume of the vessel(s).';
+  document.getElementById('pipeMissileAlert').style.display =
+    fragEnabled && isPiping ? 'flex' : 'none';
+}
+
+function onMediumChange(){
+  const m = document.getElementById('medium').value;
+  document.getElementById('kappaField').style.display = (m==='gas'||m==='other') ? 'block' : 'none';
+  document.getElementById('n2Banner').style.display = m==='n2' ? 'block' : 'none';
+  document.getElementById('airBanner').style.display = (m==='air'||m==='gas') ? 'block' : 'none';
+}
+
+function onMaterialChange(){
+  const mat = document.getElementById('material').value;
+  document.getElementById('castIronAlert').style.display = mat==='ci' ? 'flex' : 'none';
+  document.getElementById('ductileIronAlert').style.display = mat==='di' ? 'flex' : 'none';
+}
+
+function checkTestPressure(){
+  const pD = parseFloat(document.getElementById('pDesign').value);
+  const pT = parseFloat(document.getElementById('pTest').value);
+  const el = document.getElementById('pTestAlert');
+  if(!pD||!pT){el.style.display='none';return;}
+  const ratio = pT/pD;
+  let html='';
+  if(sysType==='piping'||sysType==='both'){
+    if(ratio<1.1){
+      html=`<div class="alert yellow"><div class="al-icon">⚠️</div><div><div class="alert-title">Below Minimum — B31.3 §345.5.4</div>Test pressure (${fmt(pT)} barg) is below 1.1× design pressure (${fmt(pD*1.1)} barg). B31.3 requires P_test ≥ 1.1× P_design. Calculation proceeds.</div></div>`;
+    } else if(ratio>1.33){
+      html=`<div class="alert yellow"><div class="al-icon">⚠️</div><div><div class="alert-title">Exceeds Maximum — B31.3 §345.5.4</div>Test pressure (${fmt(pT)} barg) exceeds 1.33× design pressure (${fmt(pD*1.33)} barg). B31.3 upper limit: 1.33× P_design. Calculation proceeds — engineering justification required.</div></div>`;
+    } else {
+      html=`<div class="alert green"><div class="al-icon">✓</div><div>Test pressure within B31.3 §345.5.4 bounds (1.1×–1.33× design pressure).</div></div>`;
+    }
+  } else {
+    if(ratio<1.1){
+      html=`<div class="alert yellow"><div class="al-icon">⚠️</div><div><div class="alert-title">Below Minimum — PCC-2 §501-6.2(k)</div>Test pressure (${fmt(pT)} barg) is below 1.1× MAWP (${fmt(pD*1.1)} barg). Engineering review required. Calculation proceeds.</div></div>`;
+    } else {
+      html=`<div class="alert green"><div class="al-icon">✓</div><div>Test pressure ≥ 1.1× MAWP — consistent with PCC-2 §501-6.2(k).</div></div>`;
+    }
+  }
+  el.innerHTML=html;el.style.display='block';
+}
+
+function checkPRV(){
+  const pT = parseFloat(document.getElementById('pTest').value);
+  const pPRV = parseFloat(document.getElementById('pPRV').value);
+  const el = document.getElementById('prvAlert');
+  if(!pT||!pPRV){el.style.display='none';return;}
+  // PCC-2: PRV set ≤ max(pTest + 70kPa, 1.1 × pTest)
+  // In barg: max(pTest + 0.7, 1.1 × pTest)
+  const limit = Math.max(pT+0.7, pT*1.1);
+  if(pPRV>limit){
+    el.innerHTML=`<div class="alert red"><div class="al-icon">⛔</div><div><div class="alert-title">PRV Set Pressure Non-Compliant — PCC-2 §501-6.2(i)</div>PRV set (${fmt(pPRV)} barg) exceeds the maximum permitted value of ${fmt(limit)} barg [max(P_test + 0.7 bar, 1.1 × P_test)]. Adjust PRV before testing.</div></div>`;
+  } else {
+    el.innerHTML=`<div class="alert green"><div class="al-icon">✓</div><div>PRV set pressure compliant with PCC-2 §501-6.2(i) — max permitted: ${fmt(limit)} barg.</div></div>`;
+  }
+  el.style.display='block';
+}
+
+function calcPipeVol(){
+  const OD = parseFloat(document.getElementById('pipeOD').value);
+  const WT = parseFloat(document.getElementById('pipeWT').value);
+  let L = parseFloat(document.getElementById('pipeLen').value);
+  const el = document.getElementById('pipeVolResult');
+  if(!OD||!WT){el.innerHTML='<span style="color:var(--text-dim);font-size:10px;">Enter OD and WT to calculate</span>';pipeVolCalc=null;return;}
+  const ID = OD - 2*WT; // mm
+  if(ID<=0){el.innerHTML='<span style="color:var(--red);">Invalid — wall thickness exceeds radius</span>';return;}
+  const D_m = OD/1000; // m OD
+  const L_8D = 8 * D_m;
+  if(!L) L = L_8D;
+  const r_i = (ID/2)/1000; // m
+  const vol = Math.PI * r_i * r_i * L;
+  const vol8D = Math.PI * r_i * r_i * L_8D;
+  pipeVolCalc = {vol, vol8D, L_8D, ID};
+  el.innerHTML=`
+    <div>
+      <div style="font-size:10px;color:var(--text-dim);">ID: ${fmt(ID,1)} mm &nbsp;|&nbsp; 8D length: ${fmt(L_8D,2)} m</div>
+      <div style="font-size:13px;color:var(--accent3);margin-top:4px;">V (8D) = ${fmt(vol8D,4)} m³ &nbsp;|&nbsp; V (entered L) = ${fmt(vol,4)} m³</div>
+    </div>
+    <button class="use-vol-btn" onclick="usePipeVol()">Use 8D Vol →</button>`;
+}
+
+function usePipeVol(){
+  if(pipeVolCalc){
+    document.getElementById('volume').value = pipeVolCalc.vol8D.toFixed(4);
+  }
+}
+
+function getFragDist(tnt_kg){
+  if(tnt_kg>10000) return {dist:605, note:'Exceeds table maximum (10,000 kg). Use 605 m minimum — detailed analysis required.'};
+  for(const [lo,hi,dist] of FRAG_TABLE){
+    if(tnt_kg>=lo && tnt_kg<hi) return {dist, note:null};
+  }
+  if(tnt_kg<0) return {dist:50, note:null};
+  return {dist:50, note:null};
+}
+
+function calculate(){
+  // Read inputs
+  const medium = document.getElementById('medium').value;
+  const pTestG = parseFloat(document.getElementById('pTest').value);
+  const pAtm_kPa = parseFloat(document.getElementById('pAtm').value)||101;
+  const V = parseFloat(document.getElementById('volume').value);
+  const mat = document.getElementById('material').value;
+
+  // Validation
+  if(!pTestG||pTestG<=0){alert('Please enter a valid test pressure.');return;}
+  if(!V||V<=0){alert('Please enter a valid volume.');return;}
+
+  // Check PRV while we're here
+  checkPRV();
+  checkTestPressure();
+
+  // Compute absolute pressures in Pa
+  const Pa = pAtm_kPa * 1000; // Pa
+  const Pat = (pTestG * 100000) + Pa; // Pa (bar → Pa + atm)
+
+  // Kappa
+  let kappa = 1.4;
+  if(medium==='gas'||medium==='other'){
+    kappa = parseFloat(document.getElementById('kappa').value)||1.4;
+  }
+
+  // ── Stored Energy ──
+  // Eq II-1 General: E = [1/(κ-1)] × Pat × V × [1 - (Pa/Pat)^((κ-1)/κ)]
+  // Eq II-2 Simplified (κ=1.4): E = 2.5 × Pat × V × [1 - (Pa/Pat)^0.286]
+  let E, eqLabel, eqFormula;
+  const simplified = (medium==='n2'||medium==='air');
+  if(simplified){
+    E = 2.5 * Pat * V * (1 - Math.pow(Pa/Pat, 0.286));
+    eqLabel = 'Eq. II-2 (PCC-2-2022 §501-II — N₂/Air, κ = 1.4)';
+    eqFormula = 'E = 2.5 × P<sub>at</sub> × V × [1 − (P<sub>a</sub>/P<sub>at</sub>)<sup>0.286</sup>]';
+  } else {
+    E = (1/(kappa-1)) * Pat * V * (1 - Math.pow(Pa/Pat, (kappa-1)/kappa));
+    eqLabel = `Eq. II-1 (PCC-2-2022 §501-II — General, κ = ${kappa.toFixed(3)})`;
+    eqFormula = 'E = [1/(κ−1)] × P<sub>at</sub> × V × [1 − (P<sub>a</sub>/P<sub>at</sub>)<sup>(κ−1)/κ</sup>]';
+  }
+
+  const E_MJ = E/1e6;
+
+  // ── TNT Equivalent ──
+  // Eq II-3: TNT = E / 4,266,920 (kg)
+  const TNT = E / 4266920;
+
+  // ── Blast Wave Distance ──
+  // R = Rscaled × (2×TNT)^(1/3), Rscaled = 20 m/kg^1/3 minimum
+  const R_blast = 20 * Math.pow(2*TNT, 1/3);
+
+  // Minimum code distance
+  const R_min = (E <= 8130000) ? 30 : null; // per PCC-2 §501-III-1
+
+  // Fragment distance
+  let R_frag = null;
+  let fragNote = null;
+  if(fragEnabled){
+    const fd = getFragDist(TNT);
+    R_frag = fd.dist;
+    fragNote = fd.note;
+  }
+
+  // ── Governing distance ──
+  const candidates = [30, R_blast]; // always include 30m minimum
+  if(R_frag) candidates.push(R_frag);
+  const R_gov = Math.max(...candidates);
+  let govBasis = '';
+  if(R_gov===30) govBasis='Governed by Code Minimum (PCC-2 §501-III-1)';
+  else if(R_gov===R_blast) govBasis='Governed by Blast Wave Distance (Eq. III-1)';
+  else govBasis='Governed by Fragment Throw Distance (Table 501-III-2-1)';
+
+  // ── Build Rscale table ──
+  const rscaleBody = document.getElementById('rscaleBody');
+  rscaleBody.innerHTML = '';
+  RSCALE_ROWS.forEach(row=>{
+    const R_row = row.rs * Math.pow(2*TNT, 1/3);
+    const tr = document.createElement('tr');
+    if(row.rs===20) tr.className='active-row';
+    tr.innerHTML=`<td>${row.rs}</td><td>${row.bio}</td><td>${row.struct}</td><td style="color:var(--text-bright);font-weight:600;">${fmt(R_row,1)} m</td>`;
+    rscaleBody.appendChild(tr);
+  });
+
+  // ── Energy limit alerts ──
+  let energyAlertHtml = '';
+  if(E > 271e6){
+    energyAlertHtml = `<div class="alert red"><div class="al-icon">⛔</div><div>
+      <div class="alert-title">Energy Limit Exceeded — PCC-2 §501-6.2(e)(f)</div>
+      Stored energy (${fmt(E_MJ,1)} MJ) exceeds the 271 MJ (271,000,000 J) threshold. One of the following shall occur:<br>
+      (1) Subdivide the system into smaller volumes each ≤ 271 MJ, or<br>
+      (2) Enforce the calculated exclusion zone per Eq. III-1 (R = ${fmt(R_blast,1)} m), or<br>
+      (3) Install a qualified blast barricade capable of withstanding the full stored energy.<br>
+      A detailed hazard analysis per PCC-2 Mandatory Appendix 501-IV is mandatory.
+    </div></div>`;
+  } else if(E > 8.13e6){
+    energyAlertHtml = `<div class="alert yellow"><div class="al-icon">⚠️</div><div>
+      <div class="alert-title">Energy &gt; 8.13 MJ — Detailed Hazard Analysis Required</div>
+      PCC-2 §501-6.2(g): A detailed hazard analysis should be performed considering: damage mechanisms, MDMT vs test temperature, NDE extent on untested welds, AE monitoring, blast wave propagation, fragment size and throw distance. See Mandatory Appendix 501-IV.
+    </div></div>`;
+  } else {
+    energyAlertHtml = `<div class="alert green"><div class="al-icon">✓</div><div>
+      Stored energy within limits (≤ 8.13 MJ). Code minimum distance of 30 m applies per PCC-2 §501-III-1(a).
+    </div></div>`;
+  }
+
+  // ── Update DOM ──
+  document.getElementById('eqDisplay').innerHTML=`<div class="eq-label">${eqLabel}</div>${eqFormula}`;
+  document.getElementById('rPatVal').innerHTML=`${fmtInt(Pat)} <span class="u">Pa</span>`;
+  document.getElementById('rPaVal').innerHTML=`${fmtInt(Pa)} <span class="u">Pa</span>`;
+  document.getElementById('rVolVal').innerHTML=`${fmt(V,4)} <span class="u">m³</span>`;
+  document.getElementById('rKappaVal').innerHTML=fmt(kappa,3);
+  document.getElementById('rEnergyVal').innerHTML=`${fmtInt(E)} <span class="u">J</span>`;
+  document.getElementById('rEnergyMJVal').innerHTML=`${fmt(E_MJ,3)} <span class="u">MJ</span>`;
+  document.getElementById('energyLimitAlert').innerHTML=energyAlertHtml;
+
+  document.getElementById('rE2Val').innerHTML=`${fmtInt(E)} <span class="u">J</span>`;
+  document.getElementById('rTNTVal').innerHTML=`${fmt(TNT,4)} <span class="u">kg</span>`;
+
+  document.getElementById('govZoneVal').textContent=fmt(R_gov,1);
+  document.getElementById('govZoneBasis').textContent=govBasis;
+
+  // Distance cards
+  const allDists = [R_gov];
+  function setDC(cardId,valId,val,label){
+    const card=document.getElementById(cardId);
+    const valEl=document.getElementById(valId);
+    if(val===null){valEl.textContent='N/A';card.classList.remove('governing');return;}
+    valEl.textContent=fmt(val,1);
+    card.classList.toggle('governing',Math.abs(val-R_gov)<0.001);
+  }
+  setDC('dc_min','dv_min',30,'Code Minimum');
+  setDC('dc_blast','dv_blast',R_blast,'Blast Wave');
+  setDC('dc_frag','dv_frag',R_frag,'Fragment');
+
+  // Fragment card
+  document.getElementById('fTNTVal').innerHTML=`${fmt(TNT,4)} <span class="u">kg</span>`;
+  if(fragEnabled&&R_frag!==null){
+    document.getElementById('fDistVal').innerHTML=`${fmt(R_frag,0)} <span class="u">m</span>`;
+    document.getElementById('fragCard').style.display='block';
+    if(fragNote){
+      document.getElementById('fragCard').insertAdjacentHTML('beforeend',
+        `<div class="alert yellow" style="margin-top:8px;"><div class="al-icon">⚠️</div><div>${fragNote}</div></div>`);
+    }
+  } else {
+    document.getElementById('fragCard').style.display='none';
+  }
+
+  // Show results
+  document.getElementById('resultsIdle').style.display='none';
+  document.getElementById('resultsGrid').style.display='grid';
+  document.getElementById('printDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function resetAll(){
+  document.getElementById('pDesign').value='';
+  document.getElementById('pTest').value='';
+  document.getElementById('pPRV').value='';
+  document.getElementById('volume').value='';
+  document.getElementById('pipeOD').value='';
+  document.getElementById('pipeWT').value='';
+  document.getElementById('pipeLen').value='';
+  document.getElementById('pAtm').value='101';
+  document.getElementById('medium').value='n2';
+  document.getElementById('material').value='cs';
+  document.getElementById('kappa').value='1.4';
+  document.getElementById('pTestAlert').style.display='none';
+  document.getElementById('prvAlert').style.display='none';
+  document.getElementById('castIronAlert').style.display='none';
+  document.getElementById('ductileIronAlert').style.display='none';
+  document.getElementById('kappaField').style.display='none';
+  document.getElementById('n2Banner').style.display='none';
+  document.getElementById('airBanner').style.display='none';
+  document.getElementById('pipeVolResult').innerHTML='<span style="color:var(--text-dim);font-size:10px;">Enter OD and WT to calculate</span>';
+  document.getElementById('resultsIdle').style.display='flex';
+  document.getElementById('resultsGrid').style.display='none';
+  sysType='vessel'; useCase='test'; fragEnabled=true; pipeVolCalc=null;
+  document.querySelectorAll('#sysTypeRow .radio-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('#useCaseRow .radio-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('#fragRow .radio-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  updateVolumeUI();
+}
+
+// Init
+onMediumChange();
+updateVolumeUI();
+</script>
+
+<!-- ══════════════════ MAP SECTION ══════════════════ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<style>
+/* Map section */
+.map-section{
+  border-top:2px solid #004080;
+  background:#fff;
+}
+.map-header{
+  display:flex;align-items:center;gap:20px;
+  padding:14px 24px;
+  border-bottom:1px solid #ddd;
+  flex-wrap:wrap;
+  background:#fff;
+}
+.map-header-title{display:flex;align-items:center;gap:10px;}
+.map-header-title h2{
+  font-size:15px;font-weight:bold;
+  color:#004080;letter-spacing:0.04em;text-transform:uppercase;
+}
+.map-header-title .map-badge{
+  font-size:10px;font-weight:bold;letter-spacing:0.06em;
+  background:#e8f0fb;border:1px solid #c5d5e8;
+  color:#004080;padding:3px 8px;text-transform:uppercase;
+}
+.map-coords{display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;}
+.map-coord-field{display:flex;align-items:center;gap:8px;}
+.map-coord-field label{
+  font-size:12px;font-weight:bold;color:#444;white-space:nowrap;
+}
+.map-coord-field input{
+  width:160px;
+  background:#fff;border:1px solid #ccc;
+  color:#222;font-family:Arial,sans-serif;font-size:13px;
+  padding:6px 10px;outline:none;
+  transition:border-color 0.15s;
+}
+.map-coord-field input:focus{border-color:#004080;box-shadow:0 0 0 2px rgba(0,64,128,0.1);}
+.map-plot-btn{
+  font-size:13px;font-weight:bold;
+  padding:8px 20px;
+  background:#004080;border:none;color:#fff;
+  cursor:pointer;transition:background 0.15s;white-space:nowrap;
+}
+.map-plot-btn:hover{background:#0066cc;}
+.map-plot-btn:disabled{background:#ccc;color:#888;cursor:not-allowed;}
+.map-layer-toggle{display:flex;gap:6px;margin-left:auto;}
+.layer-btn{
+  font-size:11px;font-weight:bold;letter-spacing:0.06em;
+  padding:5px 14px;border:1px solid #ccc;
+  background:#f0f4f9;color:#444;
+  cursor:pointer;transition:all 0.15s;text-transform:uppercase;
+}
+.layer-btn.active{background:#004080;border-color:#004080;color:#fff;}
+.layer-btn:hover:not(.active){background:#dce6f0;border-color:#004080;color:#004080;}
+
+/* Map container */
+.map-body{position:relative;}
+#map{height:500px;width:100%;}
+.map-no-results{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(249,249,249,0.92);
+  z-index:500;gap:10px;pointer-events:none;
+}
+.map-no-results p{
+  font-size:12px;color:#888;
+  text-align:center;line-height:1.6;
+}
+
+/* Legend */
+.map-legend{
+  padding:12px 24px;
+  border-top:1px solid #ddd;
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  background:#f9f9f9;
+}
+.legend-item{display:flex;align-items:center;gap:8px;}
+.legend-swatch{
+  width:28px;height:4px;border-radius:2px;
+}
+.legend-swatch.gov{background:#004080;}
+.legend-swatch.blast{background:#b26a00;}
+.legend-swatch.frag{background:#0066cc;}
+.legend-swatch.min{background:#2e7d32;}
+.legend-label{font-size:12px;color:#444;}
+.legend-val{font-size:12px;font-weight:bold;color:#004080;margin-left:4px;}
+
+.map-disclaimer{
+  padding:10px 24px 14px;
+  font-size:11px;color:#888;line-height:1.5;
+  border-top:1px solid #ddd;
+  background:#f9f9f9;
+}
+
+/* Leaflet style overrides for light theme */
+.leaflet-control-zoom a{
+  background:#fff!important;border-color:#ccc!important;color:#004080!important;
+}
+.leaflet-control-zoom a:hover{background:#dce6f0!important;}
+.leaflet-popup-content-wrapper{
+  background:#fff!important;border:1px solid #ddd!important;
+  color:#222!important;border-radius:2px!important;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15)!important;
+}
+.leaflet-popup-tip{background:#fff!important;}
+.leaflet-popup-content{
+  font-family:Arial,sans-serif!important;font-size:12px!important;
+  line-height:1.6!important;color:#222!important;
+  margin:10px 14px!important;
+}
+.leaflet-control-attribution{
+  background:rgba(255,255,255,0.85)!important;
+  color:#888!important;font-size:10px!important;
+}
+.leaflet-control-attribution a{color:#004080!important;}
+@media print{.map-section{display:none;}}
+</style>
+
+<div class="map-section">
+  <div class="map-header">
+    <div class="map-header-title">
+      <h2>Exclusion Zone Map</h2>
+      <div class="map-badge">Leaflet · OpenStreetMap</div>
+    </div>
+    <div class="map-coords">
+      <div class="map-coord-field">
+        <label>LAT</label>
+        <input type="number" id="mapLat" placeholder="e.g. 53.6441" step="0.0001" min="-90" max="90">
+      </div>
+      <div class="map-coord-field">
+        <label>LNG</label>
+        <input type="number" id="mapLng" placeholder="e.g. -0.1897" step="0.0001" min="-180" max="180">
+      </div>
+      <button class="map-plot-btn" id="mapPlotBtn" onclick="plotMap()">⬡ Plot Zones</button>
+    </div>
+    <div class="map-layer-toggle">
+      <button class="layer-btn active" id="btnStreet" onclick="switchLayer('street')">Street</button>
+      <button class="layer-btn" id="btnSat" onclick="switchLayer('satellite')">Satellite</button>
+    </div>
+  </div>
+
+  <div class="map-body">
+    <div id="map"></div>
+    <div class="map-no-results" id="mapOverlay">
+      <div style="font-size:32px;opacity:0.2;">⬡</div>
+      <p>Calculate risk first, then enter coordinates<br>and press Plot Zones to display exclusion zones.</p>
+    </div>
+  </div>
+
+  <div class="map-legend" id="mapLegend" style="display:none;">
+    <div class="legend-item">
+      <div class="legend-swatch gov"></div>
+      <span class="legend-label">Governing Exclusion Zone</span>
+      <span class="legend-val" id="leg_gov">—</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch blast"></div>
+      <span class="legend-label">Blast Wave Distance</span>
+      <span class="legend-val" id="leg_blast">—</span>
+    </div>
+    <div class="legend-item" id="leg_frag_item">
+      <div class="legend-swatch frag"></div>
+      <span class="legend-label">Fragment Throw Distance</span>
+      <span class="legend-val" id="leg_frag">—</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch min"></div>
+      <span class="legend-label">Code Minimum (30 m)</span>
+      <span class="legend-val">30 m</span>
+    </div>
+  </div>
+
+  <div class="map-disclaimer">
+    ⚠ Map is for orientation and visualisation purposes only. Exclusion zone boundaries must be physically marked on site using calibrated survey equipment. Coordinate accuracy depends on user input. Not a substitute for a formal site safety plan or PTW exclusion zone drawing. Base map © OpenStreetMap contributors.
+  </div>
+</div>
+
+<script>
+// ── Map state ──
+let map = null;
+let layerStreet = null;
+let layerSat = null;
+let currentLayer = 'street';
+let mapCircles = [];
+let mapMarker = null;
+let lastResults = null; // populated by calculate()
+
+// Initialise map once
+function initMap(){
+  if(map) return;
+  map = L.map('map', {zoomControl:true, attributionControl:true}).setView([51.5, -0.1], 5);
+
+  layerStreet = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom:19
+  });
+
+  layerSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+    attribution:'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics',
+    maxZoom:19
+  });
+
+  layerStreet.addTo(map);
+}
+
+function switchLayer(type){
+  if(!map) initMap();
+  currentLayer = type;
+  document.getElementById('btnStreet').classList.toggle('active', type==='street');
+  document.getElementById('btnSat').classList.toggle('active', type==='satellite');
+  if(type==='street'){
+    if(map.hasLayer(layerSat)) map.removeLayer(layerSat);
+    if(!map.hasLayer(layerStreet)) layerStreet.addTo(map);
+  } else {
+    if(map.hasLayer(layerStreet)) map.removeLayer(layerStreet);
+    if(!map.hasLayer(layerSat)) layerSat.addTo(map);
+  }
+}
+
+function clearMapLayers(){
+  mapCircles.forEach(c=>map.removeLayer(c));
+  mapCircles=[];
+  if(mapMarker){map.removeLayer(mapMarker);mapMarker=null;}
+}
+
+function plotMap(){
+  const lat = parseFloat(document.getElementById('mapLat').value);
+  const lng = parseFloat(document.getElementById('mapLng').value);
+  if(isNaN(lat)||isNaN(lng)){alert('Please enter valid latitude and longitude.');return;}
+  if(!lastResults){alert('Please run the risk calculation first.');return;}
+
+  initMap();
+  clearMapLayers();
+
+  const {R_gov, R_blast, R_frag, govBasis, TNT, E_MJ} = lastResults;
+
+  // Hide overlay
+  document.getElementById('mapOverlay').style.display='none';
+  document.getElementById('mapLegend').style.display='flex';
+
+  // Centre map
+  map.setView([lat,lng], getZoomForRadius(R_gov));
+
+  // Equipment marker
+  const equipIcon = L.divIcon({
+    html:`<div style="width:14px;height:14px;background:#004080;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(0,64,128,0.3);"></div>`,
+    className:'',iconAnchor:[7,7]
+  });
+  mapMarker = L.marker([lat,lng],{icon:equipIcon}).addTo(map);
+  mapMarker.bindPopup(`
+    <strong style="color:#004080;font-size:13px;font-weight:bold;">EQUIPMENT LOCATION</strong><br>
+    Lat: ${lat.toFixed(5)} &nbsp; Lng: ${lng.toFixed(5)}<br><br>
+    <span style="color:#888;">Stored Energy:</span> ${E_MJ.toFixed(3)} MJ<br>
+    <span style="color:#888;">TNT Equivalent:</span> ${TNT.toFixed(4)} kg<br>
+    <span style="color:#004080;font-weight:bold;">Governing Zone: ${R_gov.toFixed(1)} m</span><br>
+    <span style="color:#888;font-size:11px;">${govBasis}</span>
+  `).openPopup();
+
+  // Code minimum — 30 m (green)
+  const cMin = L.circle([lat,lng],{
+    radius:30, color:'#2e7d32', weight:2,
+    fillColor:'#2e7d32', fillOpacity:0.05, dashArray:'6 4'
+  }).addTo(map);
+  cMin.bindTooltip('Code Minimum: 30 m',{permanent:false,direction:'right'});
+  mapCircles.push(cMin);
+
+  // Fragment (blue) — only if enabled
+  if(R_frag!==null){
+    const cFrag = L.circle([lat,lng],{
+      radius:R_frag, color:'#0066cc', weight:2,
+      fillColor:'#0066cc', fillOpacity:0.04, dashArray:'8 5'
+    }).addTo(map);
+    cFrag.bindTooltip(`Fragment Throw: ${R_frag.toFixed(0)} m`,{permanent:false,direction:'right'});
+    mapCircles.push(cFrag);
+    document.getElementById('leg_frag').textContent=R_frag.toFixed(0)+' m';
+    document.getElementById('leg_frag_item').style.display='flex';
+  } else {
+    document.getElementById('leg_frag_item').style.display='none';
+  }
+
+  // Blast wave (amber)
+  const cBlast = L.circle([lat,lng],{
+    radius:R_blast, color:'#b26a00', weight:2,
+    fillColor:'#b26a00', fillOpacity:0.05, dashArray:'8 5'
+  }).addTo(map);
+  cBlast.bindTooltip(`Blast Wave: ${R_blast.toFixed(1)} m`,{permanent:false,direction:'right'});
+  mapCircles.push(cBlast);
+
+  // Governing zone (navy — outermost)
+  const cGov = L.circle([lat,lng],{
+    radius:R_gov, color:'#004080', weight:3,
+    fillColor:'#004080', fillOpacity:0.07,
+  }).addTo(map);
+  cGov.bindTooltip(`⚠ EXCLUSION ZONE: ${R_gov.toFixed(1)} m`,{permanent:true,direction:'top'});
+  mapCircles.push(cGov);
+
+  // Update legend
+  document.getElementById('leg_gov').textContent=R_gov.toFixed(1)+' m';
+  document.getElementById('leg_blast').textContent=R_blast.toFixed(1)+' m';
+
+  // Fit bounds with padding
+  map.fitBounds(cGov.getBounds(), {padding:[40,40]});
+
+  // Scroll to map
+  document.querySelector('.map-section').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function getZoomForRadius(r){
+  if(r<50) return 16;
+  if(r<150) return 15;
+  if(r<500) return 14;
+  if(r<1000) return 13;
+  return 12;
+}
+
+// Override calculate() to also store results for map
+const _calcOrig = calculate;
+calculate = function(){
+  _calcOrig();
+  // Harvest results from DOM after calculation
+  const govText = document.getElementById('govZoneVal').textContent;
+  const blastText = document.getElementById('dv_blast').textContent;
+  const fragText = document.getElementById('dv_frag').textContent;
+  const tntText = document.getElementById('rTNTVal').textContent;
+  const eMJText = document.getElementById('rEnergyMJVal').textContent;
+  const govBasis = document.getElementById('govZoneBasis').textContent;
+
+  const R_gov = parseFloat(govText)||0;
+  const R_blast = parseFloat(blastText)||0;
+  const R_frag = fragText==='N/A'||!fragText||fragText==='—' ? null : parseFloat(fragText)||null;
+  const TNT = parseFloat(tntText)||0;
+  const E_MJ = parseFloat(eMJText)||0;
+
+  lastResults = {R_gov, R_blast, R_frag, govBasis, TNT, E_MJ};
+
+  // If map already plotted, re-plot automatically
+  const lat = parseFloat(document.getElementById('mapLat').value);
+  const lng = parseFloat(document.getElementById('mapLng').value);
+  if(!isNaN(lat)&&!isNaN(lng)&&map&&mapMarker){
+    plotMap();
+  }
+};
+
+// Also clear map on reset
+const _resetOrig = resetAll;
+resetAll = function(){
+  _resetOrig();
+  if(map) clearMapLayers();
+  lastResults=null;
+  document.getElementById('mapOverlay').style.display='flex';
+  document.getElementById('mapLegend').style.display='none';
+};
+
+// Init map on page load (lazy — renders tiles only when visible)
+window.addEventListener('load', ()=>{
+  // Slight delay so layout is settled
+  setTimeout(initMap, 300);
+});
+</script>
+</body>
+</html>
