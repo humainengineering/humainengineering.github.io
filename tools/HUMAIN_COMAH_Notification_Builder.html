@@ -1117,13 +1117,25 @@ function updateEntry(id, field, value){
   const e = entries.find(e=>e.id===id);
   if(!e) return;
   e[field] = value;
-  // Tag field: update data only — do NOT re-render entries (destroys focus mid-type)
-  if(field === 'tag'){
-    renderTable();
-  } else {
-    renderEntries();
-    renderTable();
+
+  // Never re-render the whole list — targeted DOM updates preserve focus
+  const s = DB.find(x=>x.id===e.sid);
+  if(s){
+    const card = document.querySelector('[data-eid="' + id + '"]');
+    if(card){
+      const t = toT(e.qty, e.unit);
+      const tier = getTier(s, t);
+      const existing = card.querySelector('.tier-pill');
+      const tmp = document.createElement('span');
+      tmp.innerHTML = tierPill(tier);
+      const pillEl = tmp.firstChild;
+      if(existing && pillEl)  { existing.replaceWith(pillEl); }
+      else if(!existing && pillEl) { const nm = card.querySelector('.ec-name'); if(nm) nm.after(pillEl); }
+      else if(existing && !pillEl) { existing.remove(); }
+      if(field === 'unit'){ const sel = card.querySelector('select'); if(sel) sel.value = value; }
+    }
   }
+  renderTable();
 }
 
 function toT(qty, unit){
