@@ -125,6 +125,40 @@
             margin-bottom: 3rem;
         }
 
+        /* --- TICKER --- */
+        .ticker-wrap {
+            background: var(--ink-soft);
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+        }
+        .ticker { display: flex; white-space: nowrap; animation: ticker 40s linear infinite; }
+        .ticker span {
+            color: var(--muted);
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 0 3rem;
+            letter-spacing: 0.2em;
+        }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- CONTENT SECTIONS --- */
+        section { padding: 8rem 2rem; max-width: 1300px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+        
+        .card {
+            background: var(--white);
+            border: 1px solid var(--rule);
+            padding: 2.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .card h3 { font-family: 'Syne', sans-serif; margin-bottom: 1rem; }
+
         /* --- BUTTONS --- */
         .btn-group { display: flex; gap: 1.5rem; flex-wrap: wrap; }
         .btn {
@@ -137,9 +171,7 @@
             display: inline-block;
         }
         .btn-primary { background: var(--accent); color: var(--white); }
-        .btn-primary:hover { background: #b07516; transform: translateY(-2px); }
         .btn-secondary { border: 1px solid rgba(255, 255, 255, 0.2); color: var(--white); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.05); }
 
         /* --- FOOTER --- */
         footer {
@@ -148,55 +180,15 @@
             padding: 5rem 0 2rem 0;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-
         .footer-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 4rem;
+            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
+            display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem;
         }
-
-        .footer-brand img {
-            height: 40px;
-            width: auto;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .footer-brand-tag {
-            color: var(--muted);
-            font-size: 0.95rem;
-            max-width: 300px;
-        }
-
-        .footer-links h4 {
-            font-family: 'Syne', sans-serif;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-
+        .footer-brand img { height: 40px; width: auto; margin-bottom: 1.5rem; display: block; }
+        .footer-brand-tag { color: var(--muted); font-size: 0.95rem; max-width: 300px; }
+        .footer-links h4 { font-family: 'Syne', sans-serif; margin-bottom: 1.5rem; }
         .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 0.75rem; }
-        .footer-links a {
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 0.9rem;
-        }
-        .footer-links a:hover { color: var(--accent); }
-
-        .footer-bottom {
-            max-width: 1300px;
-            margin: 4rem auto 0;
-            padding: 2rem 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-between;
-            color: var(--muted);
-            font-size: 0.8rem;
-        }
+        .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
 
         /* Reveal Animation */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -204,7 +196,7 @@
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .footer-container { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -224,7 +216,7 @@
         </div>
     </nav>
 
-    <section class="hero">
+    <section class="hero" style="max-width: 100%;">
         <div class="hero-content reveal">
             <span class="section-tag">EST. 2024 // THE FUTURE OF HSEQI</span>
             <h1>Engineering<br><span style="color: var(--accent)">Intelligence.</span></h1>
@@ -232,6 +224,32 @@
             <div class="btn-group">
                 <a href="#tools" class="btn btn-primary">Explore Tools</a>
                 <a href="#services" class="btn btn-secondary">View Services</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span>Process Safety</span><span>Environmental Modeling</span><span>Risk Assessment</span><span>Quality Management</span><span>AI Integration</span><span>Asset Integrity</span>
+            <span>Process Safety</span><span>Environmental Modeling</span><span>Risk Assessment</span><span>Quality Management</span><span>AI Integration</span><span>Asset Integrity</span>
+        </div>
+    </div>
+
+    <section id="services">
+        <span class="section-tag">OUR CAPABILITIES</span>
+        <h2 style="font-family: 'Syne'; font-size: 3rem;">Industrial expertise,<br>augmented by AI.</h2>
+        <div class="grid">
+            <div class="card reveal">
+                <h3>Process Safety</h3>
+                <p>Advanced HAZOP, LOPA, and QRA studies using predictive modeling to identify risks before they manifest.</p>
+            </div>
+            <div class="card reveal">
+                <h3>Environmental</h3>
+                <p>Comprehensive impact assessments and real-time monitoring solutions for regulatory compliance.</p>
+            </div>
+            <div class="card reveal">
+                <h3>Asset Integrity</h3>
+                <p>Digital twin integration and smart maintenance scheduling to extend the life of critical infrastructure.</p>
             </div>
         </div>
     </section>
@@ -266,20 +284,18 @@
     </footer>
 
     <script>
-        // Scroll Reveal Logic
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - 150) {
                     reveals[i].classList.add("visible");
                 }
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Run once on load
+        reveal();
     </script>
 </body>
 </html>
