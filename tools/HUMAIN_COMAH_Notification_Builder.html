@@ -39,7 +39,7 @@
 body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;}
 
 /* ── HEADER ── */
-.hdr{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:200;}
+.hdr{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;gap:18px;position:sticky;top:48px;z-index:200;}
 .logo-h{font-size:16px;font-weight:700;color:var(--white);}
 .logo-ai{color:var(--gold);}
 .logo-e{font-size:16px;font-weight:400;color:var(--white);letter-spacing:.12em;margin-left:6px;}
@@ -194,9 +194,38 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
   .nc,.cat-line{color:#111;border-color:#e5e7eb;}
   .cat-line.emp{color:#888;}
 }
+
+/* ── SITE NAV ── */
+.site-nav{background:#0d1117;border-bottom:1px solid #222836;padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;}
+.site-nav-brand{display:flex;align-items:baseline;gap:4px;text-decoration:none;}
+.snb-hum{font-family:Arial,sans-serif;font-weight:800;font-size:1rem;color:#fff;letter-spacing:1px;}
+.snb-ai{font-family:Arial,sans-serif;font-weight:800;font-size:1rem;color:#e6a817;letter-spacing:1px;}
+.snb-eng{font-family:Arial,sans-serif;font-weight:400;font-size:0.75rem;color:rgba(255,255,255,0.4);letter-spacing:3px;margin-left:4px;}
+.site-nav-links{display:flex;align-items:center;gap:20px;list-style:none;}
+.site-nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:12px;font-weight:bold;padding:3px 0;border-bottom:2px solid transparent;transition:all 0.2s;}
+.site-nav-links a:hover{color:#fff;}
+.site-nav-links a.active{color:#fff;border-bottom-color:#e6a817;}
+.site-nav-links .snl-cta{background:#e6a817;color:#0d1117!important;padding:6px 14px!important;border-radius:4px;border-bottom:none!important;font-weight:bold;}
+.site-nav-links .snl-cta:hover{background:#f0b820!important;}
+@media(max-width:680px){.site-nav-links{display:none;}}
+@media print{.site-nav{display:none!important;}}
+
 </style>
 </head>
 <body>
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-brand">
+    <span class="snb-hum">HUM</span><span class="snb-ai">AI</span><span class="snb-hum">N</span><span class="snb-eng">ENGINEERING</span>
+  </a>
+  <ul class="site-nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/tools/" class="active">Tools</a></li>
+    <li><a href="/insights/">Insights</a></li>
+    <li><a href="/contact/" class="snl-cta">Get in Touch</a></li>
+  </ul>
+</nav>
 
 <div class="hdr">
   <div style="display:flex;align-items:baseline">
