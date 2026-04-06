@@ -8,25 +8,64 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
-.mono { font-family: 'Courier New', monospace; }
+    :root {
+      --ink:       #0a0f1a;
+      --ink-soft:  #1c2333;
+      --steel:     #2d3a52;
+      --fog:       #f2f4f7;
+      --white:     #ffffff;
+      --rule:      #dde2eb;
+      --accent:    #c8861a;
+      --accent2:   #1a6fc8;
+      --muted:     #6b7a96;
+      --live:      #1a9e6f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    .mono { font-family: 'Courier New', monospace; }
 
     a:focus-visible, button:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 3px;
     }
 
-    
-    
-    
-    
-    
-    
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(10,15,26,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-inner {
+      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+      height: 62px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: baseline; gap: 0; text-decoration: none;
+    }
+    .nav-brand-hum { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
+    .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
+    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:0.9rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; }
 
-    
-    
-    
-    
-    
+    .nav-links { display:flex; align-items:center; gap:2.5rem; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; letter-spacing:0.3px; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--white); }
+    .nav-links .nav-contact {
+      color: var(--accent) !important;
+      border: 1px solid rgba(200,134,26,0.4);
+      padding: 7px 16px; border-radius: 4px;
+      transition: all 0.2s !important;
+    }
+    .nav-links .nav-contact:hover { background: var(--accent); color: var(--ink) !important; border-color: var(--accent); }
 
     .hero {
       min-height: 100vh;
@@ -87,7 +126,10 @@
     }
     .hero h1 .amber { color: var(--accent); -webkit-text-stroke: 0; }
 
-    .hero-
+    .hero-body {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: end;
+    }
 
     .hero-desc {
       font-family: 'Instrument Serif', serif;
@@ -470,20 +512,42 @@
     .cta-inner p em { color: rgba(255,255,255,0.75); font-style: italic; }
     .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    footer {
+      background: #060b14;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 3rem 0 2rem;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand-name {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.2rem; color: var(--white); letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+    .footer-brand-name span { color: var(--accent); }
+    .footer-brand-tag { font-size: 0.78rem; color: var(--muted); line-height: 1.5; max-width: 290px; }
+    .footer-nav { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .footer-col h4 {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a { font-size: 0.83rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { font-size: 0.75rem; color: rgba(255,255,255,0.2); text-decoration: none; }
+    .footer-legal a:hover { color: rgba(255,255,255,0.5); }
 
     .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity:1; transform:translateY(0); }
@@ -496,20 +560,23 @@
       .intro-right { grid-template-columns:1fr; }
       .diff-cards { grid-template-columns:1fr; }
       .insights-grid { grid-template-columns:1fr; }
-      .hero-
+      .hero-body { grid-template-columns:1fr; gap:2.5rem; }
       .tool-row { grid-template-columns:40px 1fr; }
       .tool-row-status { display:none; }
-      
+      .footer-nav { gap:2rem; }
+    }
+    @media(max-width:600px) {
+      .nav-links { display:none; }
+      .hero-credentials { gap:1.5rem; }
       .industries-list { flex-direction:column; }
       .industry-item { border-right:none; border-bottom:1px solid var(--rule); }
     }
     @media (prefers-reduced-motion: reduce) {
-      
+      html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
       .ticker-track, .sb-live::before { animation: none; }
     }
   </style>
-  <link rel="stylesheet" href="/humain.css">
 </head>
 <body>
 
