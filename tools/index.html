@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   
   <style>
-    /* 2. IDENTICAL COLOR VARIABLES FROM INDEX.HTML */
+    /* EXACT CSS VARIABLES FROM INDEX.HTML */
     :root {
       --ink:       #0a0f1a;
       --ink-soft:  #1c2333;
@@ -30,8 +30,9 @@
       color: var(--ink);
       line-height: 1.5;
     }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
 
-    /* 3. IDENTICAL NAV STYLING FROM INDEX.HTML */
+    /* --- NAV FROM INDEX.HTML --- */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       background: rgba(10,15,26,0.96);
@@ -46,54 +47,48 @@
     .nav-brand-hum { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
     .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
     .nav-links { display:flex; gap:2.5rem; list-style:none; align-items: center; }
-    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; transition: color 0.2s; }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; transition: 0.2s; }
     .nav-links a:hover { color: var(--white); }
-    .nav-contact {
-      color: var(--accent) !important;
-      border: 1px solid rgba(200,134,26,0.4);
-      padding: 7px 16px; border-radius: 4px;
-    }
-    .nav-contact:hover { background: var(--accent); color: var(--ink) !important; }
+    .nav-contact { color: var(--accent) !important; border: 1px solid rgba(200,134,26,0.4); padding: 7px 16px; border-radius: 4px; }
 
-    /* 4. TOOLS CONTENT STYLING (MATCHING THEMES) */
-    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
-    .tools-section { padding-top: 120px; min-height: 80vh; }
-    
-    .tools-header h1 { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
-    .tools-header p { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--muted); margin-bottom: 3rem; }
+    /* --- TOOLS PAGE CONTENT (Restored Layout) --- */
+    .tools-hero { padding: 160px 0 60px; border-bottom: 1px solid var(--rule); margin-bottom: 60px; }
+    .tools-hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.5rem; margin-bottom: 1.5rem; }
+    .tools-hero p { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--muted); max-width: 650px; }
 
-    .filter-group { display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+    .filter-group { display: flex; gap: 12px; margin-bottom: 50px; flex-wrap: wrap; }
     .filter-btn {
-      padding: 10px 20px; border-radius: 100px; border: 1px solid var(--rule);
-      background: transparent; font-weight: 600; cursor: pointer; transition: 0.2s;
+      padding: 10px 24px; border-radius: 100px; border: 1px solid var(--rule);
+      background: transparent; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s;
     }
     .filter-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
 
     .tool-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px; margin-bottom: 80px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 32px; margin-bottom: 100px;
     }
     .tool-card {
-      border: 1px solid var(--rule); padding: 30px; display: flex; flex-direction: column;
+      border: 1px solid var(--rule); padding: 40px; display: flex; flex-direction: column;
       transition: 0.3s ease; background: white;
     }
-    .tool-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.05); }
     .tool-cat { font-family: 'Courier New', monospace; color: var(--accent); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-    .tool-card h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; }
-    .tool-card p { color: var(--muted); margin-bottom: 25px; flex-grow: 1; font-size: 0.95rem; }
-    .tool-btn { 
-      text-decoration: none; color: var(--ink); font-weight: 700; 
-      border-bottom: 2px solid var(--accent); padding-bottom: 4px; align-self: flex-start;
-    }
+    .tool-card h3 { font-family: 'Syne', sans-serif; font-size: 1.6rem; margin-bottom: 15px; }
+    .tool-card p { color: var(--muted); margin-bottom: 30px; flex-grow: 1; font-size: 1rem; line-height: 1.6; }
+    .tool-btn { text-decoration: none; color: var(--ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 4px; align-self: flex-start; }
 
-    /* 5. IDENTICAL FOOTER STYLING FROM INDEX.HTML */
-    footer { background: var(--ink); color: var(--white); padding: 80px 0 40px; margin-top: 100px; }
-    .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px; }
+    /* --- FOOTER FROM INDEX.HTML --- */
+    footer { background: var(--ink); color: var(--white); padding: 80px 0 40px; margin-top: 120px; }
+    .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px; flex-wrap: wrap; gap: 40px; }
     .footer-brand-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; }
     .footer-brand-name span { color: var(--accent); }
-    .footer-brand-tag { color: rgba(255,255,255,0.5); font-size: 0.9rem; max-width: 300px; margin-top: 10px; }
-    .footer-bottom { margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 0.8rem; opacity: 0.5; }
-    .footer-bottom a { color: white; text-decoration: none; margin-left: 20px; }
+    .footer-nav { display: flex; gap: 60px; }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; color: var(--accent); }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+    .footer-col ul li a:hover { color: white; }
+    .footer-bottom { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 0.8rem; opacity: 0.5; }
   </style>
 </head>
 <body>
@@ -107,16 +102,17 @@
       <li><a href="/">Home</a></li>
       <li><a href="/services/">Services</a></li>
       <li><a href="/tools/">Tools</a></li>
-      <li><a href="/contact/" class="nav-contact">Contact</a></li>
+      <li><a href="/insights/">Insights</a></li>
+      <li><a href="/contact/" class="nav-contact">Contact Us</a></li>
     </ul>
   </div>
 </nav>
 
-<main class="container tools-section">
-  <header class="tools-header">
+<div class="container">
+  <section class="tools-hero">
     <h1>Engineering <span style="color:var(--accent)">Tools</span></h1>
-    <p>Engineer-validated calculation tools and HSEQI decision support.</p>
-  </header>
+    <p>Engineer-validated calculation tools and HSEQI decision support, powered by intelligent automation.</p>
+  </section>
 
   <div class="filter-group">
     <button class="filter-btn active" onclick="filter('all', this)">All Tools</button>
@@ -125,7 +121,7 @@
     <button class="filter-btn" onclick="filter('compliance', this)">Compliance</button>
   </div>
 
-  <div class="tool-grid">
+  <main class="tool-grid">
     <div class="tool-card" data-cat="safety">
       <div class="tool-cat">Process Safety</div>
       <h3>CBA / ALARP Builder</h3>
@@ -139,40 +135,45 @@
       <p>Calculate stored energy and exclusion zones per ASME PCC-2.</p>
       <a href="/tools/pneumatic-energy.html" class="tool-btn">Open Tool →</a>
     </div>
-
-    <div class="tool-card" data-cat="compliance">
-      <div class="tool-cat">Regulatory Compliance</div>
-      <h3>COMAH Notification Builder</h3>
-      <p>Build and validate COMAH Regulation 6 notifications for submission.</p>
-      <a href="/tools/HUMAIN_COMAH_Notification_Builder.html" class="tool-btn">Open Tool →</a>
-    </div>
-  </div>
-</main>
+  </main>
+</div>
 
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
-        <div class="footer-brand-tag">AI-enabled HSEQI engineering tools and consultancy.</div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services/">Health & Risk</a></li>
+            <li><a href="/services/">Safety & Compliance</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/tools/">Tools</a></li>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</div>
-      <div class="footer-legal">
-        <a href="/privacy/">Privacy</a>
-        <a href="/terms/">Terms</a>
-      </div>
+      <div>© 2026 HUMAIN Engineering. All rights reserved.</div>
     </div>
   </div>
 </footer>
 
 <script>
-function filter(category, button) {
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-  button.classList.add('active');
+function filter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   document.querySelectorAll('.tool-card').forEach(card => {
-    if (category === 'all' || card.getAttribute('data-cat') === category) {
+    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
       card.style.display = 'flex';
     } else {
       card.style.display = 'none';
@@ -180,6 +181,5 @@ function filter(category, button) {
   });
 }
 </script>
-
 </body>
 </html>
