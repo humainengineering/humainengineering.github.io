@@ -9,86 +9,71 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   
   <style>
-    /* EXACT CSS VARIABLES FROM INDEX.HTML */
+    /* CSS VARIABLES FROM INDEX.HTML */
     :root {
       --ink:       #0a0f1a;
-      --ink-soft:  #1c2333;
-      --steel:     #2d3a52;
-      --fog:       #f2f4f7;
       --white:     #ffffff;
-      --rule:      #dde2eb;
       --accent:    #c8861a;
-      --accent2:   #1a6fc8;
+      --rule:      #dde2eb;
       --muted:     #6b7a96;
-      --live:      #1a9e6f;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Instrument Sans', sans-serif;
-      background: var(--white);
-      color: var(--ink);
-      line-height: 1.5;
-    }
+    body { font-family: 'Instrument Sans', sans-serif; background: var(--white); color: var(--ink); line-height: 1.5; }
     .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
 
-    /* --- NAV FROM INDEX.HTML --- */
+    /* --- NAV: FULL REPLICA --- */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      background: rgba(10,15,26,0.96);
-      backdrop-filter: blur(16px);
+      background: rgba(10,15,26,0.96); backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
-    .nav-inner {
-      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
-      height: 62px; display: flex; align-items: center; justify-content: space-between;
-    }
+    .nav-inner { max-width: 1140px; margin: 0 auto; height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; }
     .nav-brand { display: flex; align-items: baseline; text-decoration: none; }
     .nav-brand-hum { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--white); letter-spacing:1px; }
     .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
+    .nav-brand-rest { font-family:'Syne',sans-serif; font-weight:400; font-size:0.9rem; color:rgba(255,255,255,0.5); letter-spacing:4px; margin-left:4px; }
     .nav-links { display:flex; gap:2.5rem; list-style:none; align-items: center; }
-    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; transition: 0.2s; }
-    .nav-links a:hover { color: var(--white); }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; }
     .nav-contact { color: var(--accent) !important; border: 1px solid rgba(200,134,26,0.4); padding: 7px 16px; border-radius: 4px; }
 
-    /* --- TOOLS PAGE CONTENT (Restored Layout) --- */
-    .tools-hero { padding: 160px 0 60px; border-bottom: 1px solid var(--rule); margin-bottom: 60px; }
-    .tools-hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.5rem; margin-bottom: 1.5rem; }
-    .tools-hero p { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--muted); max-width: 650px; }
+    /* --- HERO: GRID & STRIPE --- */
+    .tools-hero { background: var(--ink); padding: 160px 0 80px; position: relative; overflow: hidden; color: var(--white); }
+    .hero-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px); background-size: 80px 80px; }
+    .hero-stripe { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: repeating-linear-gradient(90deg, var(--accent) 0px, var(--accent) 40px, var(--ink) 40px, var(--ink) 80px); }
+    .tools-hero-content { position: relative; z-index: 2; }
+    .tools-hero h1 { font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800; margin-bottom: 2rem; }
+    .tools-hero p { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: rgba(255,255,255,0.6); max-width: 600px; }
 
-    .filter-group { display: flex; gap: 12px; margin-bottom: 50px; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 10px 24px; border-radius: 100px; border: 1px solid var(--rule);
-      background: transparent; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s;
-    }
-    .filter-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+    /* --- TOOL GRID --- */
+    .tools-main { padding: 80px 0; }
+    .filter-group { display: flex; gap: 12px; margin-bottom: 50px; }
+    .filter-btn { padding: 10px 24px; border-radius: 100px; border: 1px solid var(--rule); background: transparent; font-weight: 600; cursor: pointer; }
+    .filter-btn.active { background: var(--ink); color: white; }
 
-    .tool-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 32px; margin-bottom: 100px;
-    }
-    .tool-card {
-      border: 1px solid var(--rule); padding: 40px; display: flex; flex-direction: column;
-      transition: 0.3s ease; background: white;
-    }
-    .tool-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.05); }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; }
+    .tool-card { border: 1px solid var(--rule); padding: 40px; display: flex; flex-direction: column; background: white; transition: 0.3s; }
+    .tool-card:hover { border-color: var(--accent); transform: translateY(-5px); }
     .tool-cat { font-family: 'Courier New', monospace; color: var(--accent); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
     .tool-card h3 { font-family: 'Syne', sans-serif; font-size: 1.6rem; margin-bottom: 15px; }
-    .tool-card p { color: var(--muted); margin-bottom: 30px; flex-grow: 1; font-size: 1rem; line-height: 1.6; }
+    .tool-card p { color: var(--muted); margin-bottom: 30px; flex-grow: 1; }
     .tool-btn { text-decoration: none; color: var(--ink); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 4px; align-self: flex-start; }
 
-    /* --- FOOTER FROM INDEX.HTML --- */
-    footer { background: var(--ink); color: var(--white); padding: 80px 0 40px; margin-top: 120px; }
-    .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px; flex-wrap: wrap; gap: 40px; }
+    /* --- BESPOKE BANNER --- */
+    .suggest-banner { background: var(--fog); padding: 40px; border-radius: 8px; margin-top: 60px; display: flex; justify-content: space-between; align-items: center; }
+    .suggest-banner strong { font-family: 'Syne', sans-serif; font-size: 1.2rem; }
+    .suggest-banner a { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+    /* --- FOOTER: FULL REPLICA --- */
+    footer { background: var(--ink); color: var(--white); padding: 80px 0 40px; margin-top: 100px; }
+    .footer-grid { display: flex; justify-content: space-between; gap: 40px; margin-bottom: 60px; }
     .footer-brand-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; }
     .footer-brand-name span { color: var(--accent); }
-    .footer-nav { display: flex; gap: 60px; }
-    .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; color: var(--accent); }
+    .footer-nav { display: flex; gap: 80px; }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 24px; color: var(--accent); }
     .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 10px; }
-    .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
-    .footer-col ul li a:hover { color: white; }
-    .footer-bottom { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 0.8rem; opacity: 0.5; }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -97,6 +82,7 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-brand-hum">HUM</span><span class="nav-brand-ai">AI</span><span class="nav-brand-hum">N</span>
+      <span class="nav-brand-rest">ENGINEERING</span>
     </a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
@@ -108,20 +94,23 @@
   </div>
 </nav>
 
-<div class="container">
-  <section class="tools-hero">
+<section class="tools-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="container tools-hero-content">
     <h1>Engineering <span style="color:var(--accent)">Tools</span></h1>
-    <p>Engineer-validated calculation tools and HSEQI decision support, powered by intelligent automation.</p>
-  </section>
+    <p>Engineer-validated calculation tools and HSEQI decision support, built for real industrial decisions.</p>
+  </div>
+</section>
 
+<main class="container tools-main">
   <div class="filter-group">
     <button class="filter-btn active" onclick="filter('all', this)">All Tools</button>
     <button class="filter-btn" onclick="filter('safety', this)">Process Safety</button>
     <button class="filter-btn" onclick="filter('mechanical', this)">Mechanical</button>
-    <button class="filter-btn" onclick="filter('compliance', this)">Compliance</button>
   </div>
 
-  <main class="tool-grid">
+  <div class="tool-grid">
     <div class="tool-card" data-cat="safety">
       <div class="tool-cat">Process Safety</div>
       <h3>CBA / ALARP Builder</h3>
@@ -132,11 +121,26 @@
     <div class="tool-card" data-cat="mechanical">
       <div class="tool-cat">Mechanical Integrity</div>
       <h3>Pneumatic Test Energy</h3>
-      <p>Calculate stored energy and exclusion zones per ASME PCC-2.</p>
+      <p>Calculate stored energy and exclusion zones per ASME PCC-2 standards.</p>
       <a href="/tools/pneumatic-energy.html" class="tool-btn">Open Tool →</a>
     </div>
-  </main>
-</div>
+
+    <div class="tool-card" data-cat="safety">
+      <div class="tool-cat">Regulatory Compliance</div>
+      <h3>COMAH Notification Builder</h3>
+      <p>Identify and aggregate dangerous substances to determine COMAH/Seveso III tier status.</p>
+      <a href="/tools/HUMAIN_COMAH_Notification_Builder.html" class="tool-btn">Open Tool →</a>
+    </div>
+  </div>
+
+  <div class="suggest-banner">
+    <div>
+      <strong>Need a specific tool?</strong>
+      <p>We build bespoke calculation tools on request validated against published standards.</p>
+    </div>
+    <a href="/contact/">Request a Tool →</a>
+  </div>
+</main>
 
 <footer>
   <div class="container">
@@ -150,6 +154,7 @@
           <ul>
             <li><a href="/services/">Health & Risk</a></li>
             <li><a href="/services/">Safety & Compliance</a></li>
+            <li><a href="/services/">Quality Assurance</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -162,9 +167,6 @@
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div>© 2026 HUMAIN Engineering. All rights reserved.</div>
-    </div>
   </div>
 </footer>
 
@@ -173,11 +175,7 @@ function filter(cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.tool-card').forEach(card => {
-    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
+    card.style.display = (cat === 'all' || card.getAttribute('data-cat') === cat) ? 'flex' : 'none';
   });
 }
 </script>
