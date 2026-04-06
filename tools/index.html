@@ -4,9 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Engineering Tools — HUMAIN Engineering</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  
   <style>
+    /* Homepage Color Variables */
     :root {
       --ink:       #0a0f1a;
       --ink-soft:  #1c2333;
@@ -20,15 +23,11 @@
       --live:      #1a9e6f;
     }
 
+    /* Base Styles */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Instrument Sans', sans-serif;
-      background: var(--white);
-      color: var(--ink);
-      line-height: 1.5;
-    }
+    body { font-family: 'Instrument Sans', sans-serif; background: var(--white); color: var(--ink); }
 
-    /* Navigation - Matching Homepage */
+    /* --- COPIED HOMEPAGE NAV --- */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       background: rgba(10,15,26,0.96);
@@ -44,100 +43,43 @@
     .nav-brand-ai { font-family:'Syne',sans-serif; font-weight:800; font-size:1.35rem; color:var(--accent); letter-spacing:1px; }
     .nav-links { display:flex; gap:2.5rem; list-style:none; }
     .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; font-weight:500; }
+    .nav-links a:hover { color: var(--white); }
 
-    /* Header Section */
-    .tools-hero {
-      background: var(--ink);
-      padding: 140px 0 60px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .hero-stripe {
-      position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 40px, var(--ink) 40px, var(--ink) 80px);
-    }
-    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+    /* --- YOUR ORIGINAL TOOLS PAGE STYLES --- */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    .tools-header { padding: 120px 0 40px; border-bottom: 1px solid var(--rule); margin-bottom: 40px; }
+    .tools-header h1 { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 1rem; }
     
-    .tools-hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: 4rem; color: var(--white);
-      margin-bottom: 1rem;
-    }
-    .tools-hero p {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.5rem; color: rgba(255,255,255,0.6);
-      max-width: 600px;
-    }
-
-    /* Filters */
-    .filter-section { padding: 40px 0; border-bottom: 1px solid var(--rule); margin-bottom: 40px; }
-    .filter-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .filter-group { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
     .filter-btn {
-      padding: 10px 24px;
-      border-radius: 100px;
-      border: 1px solid var(--rule);
-      background: transparent;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      padding: 0.6rem 1.2rem; border-radius: 100px; border: 1px solid var(--rule);
+      background: white; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s;
     }
-    .filter-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
-    .filter-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
 
-    /* Tool Cards Grid */
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 32px;
-      margin-bottom: 80px;
+    .tool-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem; margin-bottom: 4rem;
     }
     .tool-card {
-      border: 1px solid var(--rule);
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      background: var(--white);
+      border: 1px solid var(--rule); padding: 2rem; display: flex; flex-direction: column;
+      background: white; transition: transform 0.2s;
     }
-    .tool-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.05); }
-    
-    .tool-category {
-      font-family: 'Courier New', monospace;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 12px;
+    .tool-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .tool-cat { font-family: monospace; color: var(--accent); font-size: 0.8rem; margin-bottom: 0.5rem; }
+    .tool-card h3 { font-family: 'Syne', sans-serif; margin-bottom: 1rem; }
+    .tool-card p { color: var(--muted); margin-bottom: 1.5rem; flex-grow: 1; }
+    .tool-btn { 
+        text-decoration: none; color: var(--ink); font-weight: 700; 
+        border-bottom: 2px solid var(--accent); padding-bottom: 2px; align-self: flex-start;
     }
-    .tool-card h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 12px; }
-    .tool-card p { font-family: 'Instrument Serif', serif; font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; flex-grow: 1; }
-    
-    .tool-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-    .tool-tag { font-size: 0.75rem; padding: 4px 10px; background: var(--fog); color: var(--steel); border-radius: 4px; }
 
-    .tool-link {
-      text-decoration: none;
-      font-weight: 700;
-      color: var(--ink);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.2s;
-    }
-    .tool-link:hover { color: var(--accent); }
-
-    /* Footer - Matching Homepage */
-    footer { background: var(--ink); padding: 80px 0 40px; color: var(--white); }
-    .footer-grid { display: flex; justify-content: space-between; margin-bottom: 60px; }
+    /* --- COPIED HOMEPAGE FOOTER --- */
+    footer { background: var(--ink); color: var(--white); padding: 80px 0 40px; margin-top: 80px; }
+    .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; }
     .footer-brand-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; }
     .footer-brand-name span { color: var(--accent); }
+    .footer-copy { opacity: 0.5; font-size: 0.8rem; margin-top: 40px; display: block; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
   </style>
 </head>
 <body>
@@ -156,49 +98,40 @@
   </div>
 </nav>
 
-<header class="tools-hero">
-  <div class="hero-bg"></div>
-  <div class="hero-stripe"></div>
-  <div class="container">
-    <h1>Engineering <span style="color:var(--accent)">Tools</span></h1>
-    <p>Engineer-validated calculation tools and HSEQI decision support, powered by intelligent automation.</p>
-  </div>
-</header>
-
 <div class="container">
-  <section class="filter-section">
-    <div class="filter-group">
-      <button class="filter-btn active" onclick="filter('all', this)">All Tools</button>
-      <button class="filter-btn" onclick="filter('safety', this)">Safety</button>
-      <button class="filter-btn" onclick="filter('compliance', this)">Compliance</button>
-      <button class="filter-btn" onclick="filter('integrity', this)">Integrity</button>
-    </div>
-  </section>
+  <header class="tools-header">
+    <h1>Engineering Tools</h1>
+    <p>Engineer-validated calculation tools and HSEQI decision support.</p>
+  </header>
 
-  <main class="tools-grid">
+  <div class="filter-group">
+    <button class="filter-btn active" onclick="filter('all', this)">All</button>
+    <button class="filter-btn" onclick="filter('safety', this)">Safety</button>
+    <button class="filter-btn" onclick="filter('mechanical', this)">Mechanical</button>
+  </div>
+
+  <div class="tool-grid">
     <div class="tool-card" data-cat="safety">
-      <div class="tool-category">Process Safety</div>
+      <div class="tool-cat">Process Safety</div>
       <h3>CBA / ALARP Builder</h3>
-      <p>Standardised Cost-Benefit Analysis tool for demonstrating ALARP in high-hazard industries.</p>
-      <div class="tool-tags">
-        <span class="tool-tag">HSE Guidance</span>
-        <span class="tool-tag">COMAH</span>
-      </div>
-      <a href="/tools/cba-tool.html" class="tool-link">Launch Tool <span>→</span></a>
+      <p>Standardised Cost-Benefit Analysis tool for demonstrating ALARP.</p>
+      <a href="/tools/cba-tool.html" class="tool-btn">Open Tool →</a>
     </div>
 
-    <div class="tool-card" data-cat="integrity">
-      <div class="tool-category">Mechanical Integrity</div>
+    <div class="tool-card" data-cat="mechanical">
+      <div class="tool-cat">Mechanical</div>
       <h3>Pneumatic Test Energy</h3>
-      <p>Calculate stored energy and exclusion zones for pneumatic pressure testing per ASME PCC-2.</p>
-      <div class="tool-tags">
-        <span class="tool-tag">ASME</span>
-        <span class="tool-tag">Safety</span>
-      </div>
-      <a href="/tools/pneumatic-energy.html" class="tool-link">Launch Tool <span>→</span></a>
+      <p>Calculate stored energy and exclusion zones per ASME PCC-2.</p>
+      <a href="/tools/pneumatic-energy.html" class="tool-btn">Open Tool →</a>
     </div>
-
-    </main>
+    
+    <div class="tool-card" data-cat="compliance">
+        <div class="tool-cat">Compliance</div>
+        <h3>COMAH Notification Builder</h3>
+        <p>Build and validate COMAH Regulation 6 notifications.</p>
+        <a href="/tools/HUMAIN_COMAH_Notification_Builder.html" class="tool-btn">Open Tool →</a>
+      </div>
+  </div>
 </div>
 
 <footer>
@@ -207,28 +140,23 @@
       <div class="footer-brand">
         <div class="footer-brand-name">HUM<span>AI</span>N ENGINEERING</div>
       </div>
-      <div class="footer-links">
-         </div>
     </div>
-    <div style="opacity: 0.4; font-size: 0.8rem;">© 2026 HUMAIN Engineering. All rights reserved.</div>
+    <span class="footer-copy">© 2026 HUMAIN Engineering. All rights reserved.</span>
   </div>
 </footer>
 
 <script>
-function filter(cat, btn) {
-  // Update Buttons
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  
-  // Filter Cards
-  document.querySelectorAll('.tool-card').forEach(card => {
-    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
+  function filter(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tool-card').forEach(card => {
+      if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
 </script>
 
 </body>
